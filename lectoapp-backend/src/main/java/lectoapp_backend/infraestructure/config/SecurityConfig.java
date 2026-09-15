@@ -150,7 +150,7 @@ public class SecurityConfig {
                 .filter(origin -> !origin.isEmpty())
                 .toList();
 
-        configuration.setAllowedOrigins(origins);
+        configuration.setAllowedOriginPatterns(origins);
 
         configuration.setAllowedMethods(
                 List.of(
@@ -158,15 +158,12 @@ public class SecurityConfig {
                         "POST",
                         "PUT",
                         "DELETE",
-                        "OPTIONS"
+                        "OPTIONS",
+                        "PATCH"
                 ));
 
         configuration.setAllowedHeaders(
-                List.of(
-                        "Authorization",
-                        "Content-Type",
-                        "Accept"
-                ));
+                List.of("*"));
 
         configuration.setExposedHeaders(
                 List.of("Authorization"));
