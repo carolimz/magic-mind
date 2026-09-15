@@ -1,0 +1,98 @@
+<article
+  class="reading-game flex h-full flex-1 flex-col rounded-[2.5rem] border-4 border-white p-6 text-center shadow-xl sm:p-10"
+>
+  <div class="reading-header">
+    <div
+      class="reading-picture"
+      aria-hidden="true"
+    >
+      {{ resourceEmoji() }}
+    </div>
+
+    <button
+      type="button"
+      class="sound-button"
+      aria-label="Escuchar la lectura y la pregunta"
+      (click)="speakReading()"
+    >
+      <i
+        class="pi pi-volume-up"
+        aria-hidden="true"
+      ></i>
+    </button>
+  </div>
+
+  <section
+    class="reading-card"
+    aria-label="Lectura"
+  >
+    <div
+      class="reading-card__icon"
+      aria-hidden="true"
+    >
+      📖
+    </div>
+
+    <p>
+      {{ readingText() }}
+    </p>
+  </section>
+
+  <section
+    class="question-card"
+    aria-label="Pregunta"
+  >
+    <p class="question-card__label">
+      Piensa y responde
+    </p>
+
+    <h1>
+      {{ item().pregunta }}
+    </h1>
+  </section>
+
+  <div
+    class="option-board"
+    aria-label="Respuestas disponibles"
+  >
+    @for (
+      option of item().opciones;
+      track option
+    ) {
+      <button
+        type="button"
+        class="answer-option"
+        [class.answer-option--selected]="
+          selectedAnswer() === option
+        "
+        [disabled]="submitting()"
+        (click)="selectOption(option)"
+      >
+        {{ option }}
+      </button>
+    }
+  </div>
+
+  <div class="mt-auto pt-8">
+    <p-button
+      [label]="
+        lastItem()
+          ? 'Terminar'
+          : '¡Listo!'
+      "
+      [icon]="
+        lastItem()
+          ? 'pi pi-check'
+          : 'pi pi-arrow-right'
+      "
+      iconPos="right"
+      size="large"
+      [loading]="submitting()"
+      [disabled]="
+        !selectedAnswer() ||
+        submitting()
+      "
+      (onClick)="continue()"
+    />
+  </div>
+</article>

@@ -1,0 +1,178 @@
+:host {
+  display: block;
+}
+
+.user-card {
+  height: 100%;
+  padding: 1.35rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 1.5rem;
+  background: #ffffff;
+  box-shadow:
+    0 0.8rem 2rem
+    rgb(15 23 42 / 7%);
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    transform 150ms ease;
+
+  &:hover {
+    border-color: #c4b5fd;
+    box-shadow:
+      0 1rem 2.2rem
+      rgb(124 58 237 / 12%);
+    transform: translateY(-0.2rem);
+  }
+}
+
+.user-card--inactive {
+  background: #f8fafc;
+  opacity: 0.75;
+}
+
+.user-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.user-avatar {
+  display: grid;
+  width: 4rem;
+  height: 4rem;
+  place-items: center;
+  border-radius: 1.25rem;
+  color: #ffffff;
+  font-size: 1.15rem;
+  font-weight: 900;
+  box-shadow:
+    0 0.6rem 1.3rem
+    rgb(15 23 42 / 14%);
+}
+
+.user-avatar--admin {
+  background:
+    linear-gradient(
+      145deg,
+      #7c3aed,
+      #4f46e5
+    );
+}
+
+.user-avatar--teacher {
+  background:
+    linear-gradient(
+      145deg,
+      #2563eb,
+      #06b6d4
+    );
+}
+
+.user-status {
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.user-status--active {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.user-status--inactive {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.user-card__identity {
+  margin-top: 1rem;
+
+  h3 {
+    margin: 0;
+    color: #172554;
+    font-size: 1.2rem;
+    font-weight: 900;
+  }
+
+  p {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    overflow-wrap: anywhere;
+    margin: 0.35rem 0 0;
+    color: #64748b;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+}
+
+.user-role {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+  padding: 0.9rem;
+  border-radius: 1rem;
+
+  span:not(.user-role__icon) {
+    display: block;
+    color: #64748b;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  strong {
+    display: block;
+    margin-top: 0.1rem;
+    font-size: 0.95rem;
+    font-weight: 900;
+  }
+}
+
+.user-role--admin {
+  background: #f3e8ff;
+  color: #6b21a8;
+}
+
+.user-role--teacher {
+  background: #e0f2fe;
+  color: #075985;
+}
+
+.user-role__icon {
+  font-size: 1.8rem;
+}
+
+.user-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+  color: #94a3b8;
+  font-size: 0.72rem;
+  font-weight: 800;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+}
+
+.user-card__security {
+  color: #059669;
+}
+
+@media (max-width: 400px) {
+  .user-card__footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

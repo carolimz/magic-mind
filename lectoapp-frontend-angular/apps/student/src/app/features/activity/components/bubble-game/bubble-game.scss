@@ -1,0 +1,314 @@
+:host {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.bubble-game {
+  background:
+    radial-gradient(circle at 12% 18%,
+      rgb(253 224 71 / 30%),
+      transparent 18%),
+    radial-gradient(circle at 88% 20%,
+      rgb(56 189 248 / 25%),
+      transparent 20%),
+    radial-gradient(circle at 50% 90%,
+      rgb(192 132 252 / 25%),
+      transparent 25%),
+    rgb(255 255 255 / 85%);
+}
+
+.search-target {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.5rem;
+  padding-right: 4rem;
+}
+
+.search-target__glass {
+  position: relative;
+  display: flex;
+  width: 8.5rem;
+  height: 8.5rem;
+  align-items: center;
+  justify-content: center;
+  border: 0.8rem solid #7c3aed;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 90%);
+  box-shadow:
+    0 1rem 2rem rgb(124 58 237 / 20%),
+    inset 0 0 1.5rem rgb(196 181 253 / 45%);
+
+  span {
+    color: #2563eb;
+    font-size: 4.5rem;
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  &::after {
+    position: absolute;
+    right: -3.3rem;
+    bottom: -1.7rem;
+    width: 4.5rem;
+    height: 1.2rem;
+    border-radius: 999px;
+    background: #7c3aed;
+    content: '';
+    transform: rotate(45deg);
+    transform-origin: left center;
+  }
+}
+
+.search-target__sound {
+  position: absolute;
+  right: -0.5rem;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  width: 4rem;
+  height: 4rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border: 0.3rem solid #fff;
+  border-radius: 50%;
+  background: #fbbf24;
+  color: #78350f;
+  font-size: 1.5rem;
+  box-shadow:
+    0 0.75rem 1.5rem rgb(251 191 36 / 35%);
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+
+  &:hover {
+    transform: scale(1.08);
+  }
+
+  &:active {
+    transform: scale(0.92);
+  }
+
+  &:focus-visible {
+    outline: 0.3rem solid #2563eb;
+    outline-offset: 0.2rem;
+  }
+}
+
+.bubble-field {
+  position: relative;
+  width: min(100%, 45rem);
+  /* Campo más alto para acomodar 6 burbujas sin superposición */
+  height: clamp(26rem, 58vh, 38rem);
+  margin: 1.5rem auto 0;
+  overflow: hidden;
+  border: 0.25rem dashed rgb(167 139 250 / 45%);
+  border-radius: 2.5rem;
+  background:
+    radial-gradient(circle at 20% 20%,
+      rgb(255 255 255 / 85%),
+      transparent 22%),
+    linear-gradient(145deg,
+      rgb(224 242 254 / 65%),
+      rgb(243 232 255 / 65%));
+  box-shadow:
+    inset 0 0 2rem rgb(124 58 237 / 8%);
+}
+
+.bubble-mover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: max-content;
+  height: max-content;
+  will-change: transform;
+}
+
+.bubble-option {
+  position: relative;
+  display: flex;
+  width: 8rem;
+  height: 8rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border: 0.4rem solid rgb(255 255 255 / 85%);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 24%,
+      rgb(255 255 255 / 95%) 0 7%,
+      transparent 8%),
+    linear-gradient(145deg,
+      rgb(125 211 252 / 85%),
+      rgb(192 132 252 / 80%));
+  box-shadow:
+    inset -1rem -1rem 1.5rem rgb(37 99 235 / 18%),
+    0 1rem 2rem rgb(124 58 237 / 20%);
+  transition:
+    filter 150ms ease,
+    transform 150ms ease;
+
+  span {
+    color: #312e81;
+    font-size: 3.7rem;
+    font-weight: 900;
+    line-height: 1;
+    text-shadow:
+      0 0.15rem 0 rgb(255 255 255 / 70%);
+  }
+
+  &::before {
+    position: absolute;
+    top: 15%;
+    left: 20%;
+    width: 1.3rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 65%);
+    content: '';
+    transform: rotate(35deg);
+  }
+
+  &:hover {
+    filter: saturate(1.15);
+    transform: scale(1.08);
+  }
+
+  &:active {
+    transform: scale(0.94);
+  }
+
+  &:focus-visible {
+    outline: 0.35rem solid #2563eb;
+    outline-offset: 0.3rem;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+}
+
+.bubble-mover:nth-child(2) .bubble-option {
+  width: 7.2rem;
+  height: 7.2rem;
+  background:
+    radial-gradient(circle at 30% 24%,
+      rgb(255 255 255 / 95%) 0 7%,
+      transparent 8%),
+    linear-gradient(145deg,
+      rgb(253 186 116 / 85%),
+      rgb(251 113 133 / 75%));
+}
+
+.bubble-mover:nth-child(3) .bubble-option {
+  width: 7.5rem;
+  height: 7.5rem;
+  background:
+    radial-gradient(circle at 30% 24%,
+      rgb(255 255 255 / 95%) 0 7%,
+      transparent 8%),
+    linear-gradient(145deg,
+      rgb(134 239 172 / 85%),
+      rgb(45 212 191 / 75%));
+}
+
+.bubble-mover:nth-child(4) .bubble-option {
+  width: 8.3rem;
+  height: 8.3rem;
+  background:
+    radial-gradient(circle at 30% 24%,
+      rgb(255 255 255 / 95%) 0 7%,
+      transparent 8%),
+    linear-gradient(145deg,
+      rgb(253 224 71 / 85%),
+      rgb(251 146 60 / 75%));
+}
+
+/* Colores para las dos nuevas burbujas extra (opciones 5 y 6) */
+.bubble-mover:nth-child(5) .bubble-option {
+  width: 7.8rem;
+  height: 7.8rem;
+  background:
+    radial-gradient(circle at 30% 24%,
+      rgb(255 255 255 / 95%) 0 7%,
+      transparent 8%),
+    linear-gradient(145deg,
+      rgb(249 168 212 / 85%),
+      rgb(192 132 252 / 75%));
+}
+
+.bubble-mover:nth-child(6) .bubble-option {
+  width: 7rem;
+  height: 7rem;
+  background:
+    radial-gradient(circle at 30% 24%,
+      rgb(255 255 255 / 95%) 0 7%,
+      transparent 8%),
+    linear-gradient(145deg,
+      rgb(103 232 249 / 85%),
+      rgb(52 211 153 / 75%));
+}
+
+.bubble-option--popping {
+  animation: bubble-pop 500ms ease-out forwards !important;
+  animation-delay: 0ms !important;
+  pointer-events: none;
+}
+
+@keyframes bubble-pop {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  45% {
+    opacity: 1;
+    transform: scale(1.25);
+  }
+
+  75% {
+    opacity: 0.7;
+    transform: scale(0.75);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.65);
+  }
+}
+
+@media (max-width: 640px) {
+  .search-target {
+    transform: scale(0.85);
+  }
+
+  .bubble-field {
+    height: 25rem;
+    border-radius: 2rem;
+  }
+
+  .bubble-option,
+  .bubble-mover:nth-child(2) .bubble-option,
+  .bubble-mover:nth-child(3) .bubble-option,
+  .bubble-mover:nth-child(4) .bubble-option {
+    width: 6.5rem;
+    height: 6.5rem;
+
+    span {
+      font-size: 3rem;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bubble-option {
+    transition: none;
+  }
+
+  .bubble-option--popping {
+    animation-duration: 1ms !important;
+  }
+}

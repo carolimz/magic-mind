@@ -1,0 +1,244 @@
+<section class="user-list-page">
+  <section class="admin-welcome">
+    <div>
+      <p class="admin-welcome__eyebrow">
+        Administración
+      </p>
+
+      <h1>Gestión de usuarios</h1>
+
+      <p>
+        Registra y consulta las cuentas del equipo
+        encargado de Magic Mind.
+      </p>
+    </div>
+
+    <div
+      class="admin-welcome__illustration"
+      aria-hidden="true"
+    >
+      🛡️
+    </div>
+  </section>
+
+  <section
+    class="summary-grid"
+    aria-label="Resumen de usuarios"
+  >
+    <article class="summary-card">
+      <div
+        class="summary-card__icon summary-card__icon--purple"
+        aria-hidden="true"
+      >
+        🛡️
+      </div>
+
+      <div>
+        <strong>
+          {{ administrators().length }}
+        </strong>
+
+        <span>Administradores</span>
+      </div>
+    </article>
+
+    <article class="summary-card">
+      <div
+        class="summary-card__icon summary-card__icon--blue"
+        aria-hidden="true"
+      >
+        👩‍🏫
+      </div>
+
+      <div>
+        <strong>
+          {{ teachers().length }}
+        </strong>
+
+        <span>Docentes</span>
+      </div>
+    </article>
+
+    <article class="summary-card">
+      <div
+        class="summary-card__icon summary-card__icon--green"
+        aria-hidden="true"
+      >
+        ✅
+      </div>
+
+      <div>
+        <strong>
+          {{ activeUsers() }}
+        </strong>
+
+        <span>Cuentas activas</span>
+      </div>
+    </article>
+  </section>
+
+  @if (successMessage()) {
+    <div
+      class="message message--success"
+      role="status"
+    >
+      <i
+        class="pi pi-check-circle"
+        aria-hidden="true"
+      ></i>
+
+      {{ successMessage() }}
+    </div>
+  }
+
+  @if (errorMessage()) {
+    <div
+      class="message message--error"
+      role="alert"
+    >
+      <i
+        class="pi pi-exclamation-circle"
+        aria-hidden="true"
+      ></i>
+
+      {{ errorMessage() }}
+    </div>
+  }
+
+  <section class="users-panel">
+    <div class="users-panel__header">
+      <div>
+        <p class="users-panel__eyebrow">
+          Equipo Magic Mind
+        </p>
+
+        <h2>Usuarios registrados</h2>
+
+        <p>
+          Consulta las cuentas administrativas
+          y docentes.
+        </p>
+      </div>
+
+      <p-button
+        label="Nuevo usuario"
+        icon="pi pi-plus"
+        (onClick)="showCreateForm()"
+      />
+    </div>
+
+    @if (loading()) {
+      <div class="empty-state">
+        <i
+          class="pi pi-spin pi-spinner"
+          aria-hidden="true"
+        ></i>
+
+        <p>Cargando usuarios...</p>
+      </div>
+    } @else if (users().length === 0) {
+      <div class="empty-state">
+        <div
+          class="empty-state__icon"
+          aria-hidden="true"
+        >
+          👥
+        </div>
+
+        <h3>No hay usuarios registrados</h3>
+
+        <p>
+          Registra una cuenta para comenzar.
+        </p>
+
+        <p-button
+          label="Crear usuario"
+          icon="pi pi-plus"
+          (onClick)="showCreateForm()"
+        />
+      </div>
+    } @else {
+      @if (administrators().length > 0) {
+        <section
+          class="user-group"
+          aria-labelledby="administrators-title"
+        >
+          <div class="user-group__header">
+            <div>
+              <span
+                class="user-group__icon"
+                aria-hidden="true"
+              >
+                🛡️
+              </span>
+
+              <h3 id="administrators-title">
+                Administradores
+              </h3>
+            </div>
+
+            <span class="user-group__counter">
+              {{ administrators().length }}
+            </span>
+          </div>
+
+          <div class="user-grid">
+            @for (
+              user of administrators();
+              track user.id
+            ) {
+              <app-user-card
+                [user]="user"
+              />
+            }
+          </div>
+        </section>
+      }
+
+      @if (teachers().length > 0) {
+        <section
+          class="user-group"
+          aria-labelledby="teachers-title"
+        >
+          <div class="user-group__header">
+            <div>
+              <span
+                class="user-group__icon"
+                aria-hidden="true"
+              >
+                👩‍🏫
+              </span>
+
+              <h3 id="teachers-title">
+                Docentes
+              </h3>
+            </div>
+
+            <span class="user-group__counter">
+              {{ teachers().length }}
+            </span>
+          </div>
+
+          <div class="user-grid">
+            @for (
+              user of teachers();
+              track user.id
+            ) {
+              <app-user-card
+                [user]="user"
+              />
+            }
+          </div>
+        </section>
+      }
+    }
+  </section>
+
+  @if (formVisible()) {
+    <app-user-form-dialog
+      [saving]="saving()"
+      (submitted)="createUser($event)"
+      (closed)="hideCreateForm()"
+    />
+  }
+</section>

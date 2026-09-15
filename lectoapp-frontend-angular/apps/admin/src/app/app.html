@@ -1,0 +1,55 @@
+<main class="admin-app">
+  <header class="admin-header">
+    <div class="admin-header__content">
+      <a
+        class="admin-brand"
+        href="/admin"
+        aria-label="Ir al panel administrativo"
+      >
+        <img
+          src="/assets/logo.png"
+          alt="Magic Mind"
+          class="admin-brand__logo"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"
+        />
+        <span
+          class="admin-brand__icon"
+          aria-hidden="true"
+          style="display: none;"
+        >
+          🛡️
+        </span>
+
+        <span>Magic Mind</span>
+      </a>
+
+      <div class="admin-profile">
+        <div class="admin-profile__information">
+          <span>Administrador</span>
+
+          <strong>
+            {{ administratorName() }}
+          </strong>
+        </div>
+
+        <button
+          type="button"
+          class="logout-button"
+          aria-label="Cerrar sesión"
+          (click)="logout()"
+        >
+          <i
+            class="pi pi-sign-out"
+            aria-hidden="true"
+          ></i>
+
+          <span class="hidden sm:inline">
+            Salir
+          </span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <app-user-list-page />
+</main>

@@ -1,0 +1,88 @@
+<article class="sequence-game flex h-full flex-1 flex-col rounded-[2.5rem] border-4 border-white p-6 text-center shadow-xl sm:p-10">
+  
+  <!-- Encabezado y Lectura -->
+  <div class="reading-header">
+    <button type="button" class="sound-button" aria-label="Escuchar el cuento" (click)="speakInstruction()">
+      <i class="pi pi-volume-up" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <section class="reading-card" aria-label="Cuento" [class.reading-card--error]="hasError()">
+    <div class="reading-card__icon" aria-hidden="true">📖</div>
+    <p>{{ item().texto }}</p>
+  </section>
+
+  <!-- Contenedor Drag & Drop -->
+  <div class="drag-container mt-8" cdkDropListGroup>
+    
+    <!-- Banco de Imágenes Disponibles -->
+    <div class="bank-section">
+      <p class="section-label">Imágenes desordenadas</p>
+      <div
+        id="image-bank"
+        class="drop-zone drop-zone--bank"
+        cdkDropList
+        cdkDropListOrientation="horizontal"
+        [cdkDropListData]="availableImages()"
+        (cdkDropListDropped)="dropImage($event)"
+      >
+        @for (img of availableImages(); track img) {
+          <div class="draggable-image" cdkDrag [cdkDragDisabled]="submitting()">
+            <div class="image-placeholder" aria-hidden="true">
+              {{ resourceEmoji()(img) }}
+            </div>
+            <!-- Placeholder para cuando se está arrastrando -->
+            <div class="drag-placeholder" *cdkDragPlaceholder></div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Línea de tiempo (Secuencia) -->
+    <div class="timeline-section mt-6">
+      <p class="section-label">Línea de tiempo (Arrastra aquí en orden)</p>
+      
+      <div class="timeline-wrapper">
+        <div
+          id="timeline-bank"
+          class="drop-zone drop-zone--timeline"
+          [class.drop-zone--error]="hasError()"
+          cdkDropList
+          cdkDropListOrientation="horizontal"
+          [cdkDropListData]="timelineImages()"
+          (cdkDropListDropped)="dropImage($event)"
+        >
+          @for (img of timelineImages(); track img; let i = $index) {
+            <div class="draggable-image" cdkDrag [cdkDragDisabled]="submitting()">
+              <span class="order-badge">{{ i + 1 }}</span>
+              <div class="image-placeholder" aria-hidden="true">
+                {{ resourceEmoji()(img) }}
+              </div>
+              <div class="drag-placeholder" *cdkDragPlaceholder></div>
+            </div>
+          }
+          
+          <!-- Huecos vacíos guía -->
+          @for (empty of [].constructor(item().opciones.length - timelineImages().length); track $index) {
+            <div class="empty-slot">
+              <span class="order-badge">{{ timelineImages().length + $index + 1 }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="mt-auto pt-8">
+    <p-button
+      [label]="lastItem() ? 'Terminar' : 'Validar'"
+      [icon]="lastItem() ? 'pi pi-check' : 'pi pi-arrow-right'"
+      iconPos="right"
+      size="large"
+      [loading]="submitting()"
+      [disabled]="!canValidate() || submitting()"
+      (onClick)="validate()"
+    />
+  </div>
+</article>

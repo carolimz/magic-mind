@@ -1,0 +1,95 @@
+<article
+  class="sentence-game flex h-full flex-1 flex-col rounded-[2.5rem] border-4 border-white p-6 text-center shadow-xl sm:p-10"
+>
+  <div>
+    <p class="text-lg font-black text-purple-700">
+      Completa la frase
+    </p>
+
+    <div
+      class="sentence-picture"
+      aria-hidden="true"
+    >
+      {{ resourceEmoji() }}
+    </div>
+
+    <button
+      type="button"
+      class="sound-button"
+      aria-label="Escuchar la frase"
+      (click)="speakInstruction()"
+    >
+      <i
+        class="pi pi-volume-up"
+        aria-hidden="true"
+      ></i>
+    </button>
+  </div>
+
+  <div
+    class="sentence-board"
+    aria-label="Frase que debes completar"
+  >
+    <span>
+      {{ sentenceParts().before }}
+    </span>
+
+    <span
+      class="missing-word"
+      [class.missing-word--completed]="
+        selectedAnswer() !== null
+      "
+    >
+      {{ selectedAnswer() ?? '?' }}
+    </span>
+
+    <span>
+      {{ sentenceParts().after }}
+    </span>
+  </div>
+
+  <div
+    class="option-board"
+    aria-label="Palabras disponibles"
+  >
+    @for (
+      option of item().opciones;
+      track option
+    ) {
+      <button
+        type="button"
+        class="word-option"
+        [class.word-option--selected]="
+          selectedAnswer() === option
+        "
+        [disabled]="submitting()"
+        (click)="selectOption(option)"
+      >
+        {{ option }}
+      </button>
+    }
+  </div>
+
+  <div class="mt-auto pt-8">
+    <p-button
+      [label]="
+        lastItem()
+          ? 'Terminar'
+          : '¡Listo!'
+      "
+      [icon]="
+        lastItem()
+          ? 'pi pi-check'
+          : 'pi pi-arrow-right'
+      "
+      iconPos="right"
+      size="large"
+      [loading]="submitting()"
+      [disabled]="
+        !selectedAnswer() ||
+        submitting()
+      "
+      (onClick)="continue()"
+    />
+  </div>
+</article>

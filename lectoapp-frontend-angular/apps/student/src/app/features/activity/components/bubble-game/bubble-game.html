@@ -1,0 +1,86 @@
+<article
+  class="bubble-game flex h-full flex-1 flex-col overflow-hidden rounded-[2.5rem] border-4 border-white bg-white/80 p-5 shadow-xl backdrop-blur sm:p-8"
+>
+  <div class="text-center">
+    <p
+      class="text-4xl"
+      aria-hidden="true"
+    >
+      👀
+    </p>
+
+    <div class="search-target">
+      <div class="search-target__glass">
+        <span>
+          {{ item().respuestaCorrecta }}
+        </span>
+      </div>
+
+      <button
+        type="button"
+        class="search-target__sound"
+        aria-label="Escuchar la letra que debes buscar"
+        (click)="speakInstruction()"
+      >
+        <i
+          class="pi pi-volume-up"
+          aria-hidden="true"
+        ></i>
+      </button>
+    </div>
+  </div>
+
+  <div
+    class="bubble-field"
+    aria-label="Opciones de letras"
+  >
+    @for (
+      option of item().opciones;
+      track option;
+      let bubbleIndex = $index
+    ) {
+      <div
+        appFloatingBubble
+        class="bubble-mover"
+        [bubbleIndex]="bubbleIndex"
+      >
+        <button
+          type="button"
+          class="bubble-option"
+          [class.bubble-option--popping]="
+            poppingOption() === option
+          "
+          [disabled]="
+            poppingOption() !== null ||
+            disabled()
+          "
+          [attr.aria-label]="'Letra ' + option"
+          (click)="selectBubble(option)"
+        >
+          <span>
+            {{ option }}
+          </span>
+        </button>
+      </div>
+    }
+  </div>
+
+  <div
+    class="mt-auto flex items-center justify-center gap-5 pt-5 text-4xl"
+    aria-hidden="true"
+  >
+    <span>👀</span>
+
+    <i
+      class="pi pi-arrow-right text-2xl text-purple-400"
+    ></i>
+
+    <span>🔍</span>
+
+    <i
+      class="pi pi-arrow-right text-2xl text-purple-400"
+    ></i>
+
+    <span>🫧</span>
+  </div>
+</article>

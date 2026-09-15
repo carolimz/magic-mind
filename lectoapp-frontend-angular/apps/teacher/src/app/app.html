@@ -1,0 +1,59 @@
+<main class="teacher-app">
+  <header class="teacher-header">
+    <div class="teacher-header__content">
+      <a
+        class="teacher-brand"
+        routerLink="/teacher"
+        aria-label="Ir al panel docente"
+      >
+        <img
+          src="/assets/logo.png"
+          alt="Magic Mind"
+          class="teacher-brand__logo"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"
+        />
+        <span
+          class="teacher-brand__icon"
+          aria-hidden="true"
+          style="display: none;"
+        >
+          📚
+        </span>
+
+        <span>Magic Mind</span>
+      </a>
+
+      <div class="teacher-profile">
+        <div class="teacher-profile__information">
+          <span>Docente</span>
+
+          <strong>
+            {{ teacherName() }}
+          </strong>
+        </div>
+
+        <button
+          type="button"
+          class="logout-button"
+          aria-label="Cerrar sesión"
+          (click)="logout()"
+        >
+          <i
+            class="pi pi-sign-out"
+            aria-hidden="true"
+          ></i>
+
+          <span class="hidden sm:inline">
+            Salir
+          </span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  @if (isStudentProgress) {
+    <app-student-progress-page />
+  } @else {
+    <app-student-list-page />
+  }
+</main>

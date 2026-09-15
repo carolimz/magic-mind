@@ -1,0 +1,7 @@
+/* @import 'tailwindcss' source('./app');
+@import '@openng/optimus-ui-tailwindcss';
+@import 'primeicons/primeicons.css'; */
+
+@import 'tailwindcss';
+@import '@openng/optimus-ui-tailwindcss';
+@import '@openng/icons/openng-icons.css';

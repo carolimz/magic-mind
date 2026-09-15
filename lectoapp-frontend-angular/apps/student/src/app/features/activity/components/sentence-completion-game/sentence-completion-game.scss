@@ -1,0 +1,257 @@
+:host {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.sentence-game {
+  background:
+    radial-gradient(
+      circle at 12% 18%,
+      rgb(134 239 172 / 25%),
+      transparent 20%
+    ),
+    radial-gradient(
+      circle at 88% 20%,
+      rgb(253 224 71 / 25%),
+      transparent 22%
+    ),
+    linear-gradient(
+      145deg,
+      rgb(255 255 255 / 96%),
+      rgb(236 253 245 / 90%)
+    );
+}
+
+.sentence-picture {
+  margin-top: 0.5rem;
+  font-size: clamp(5rem, 12vw, 8rem);
+  line-height: 1.2;
+  filter:
+    drop-shadow(
+      0 0.8rem 0.7rem
+      rgb(15 23 42 / 15%)
+    );
+  animation:
+    picture-arrival 600ms ease-out;
+}
+
+.sound-button {
+  display: inline-flex;
+  width: 4.7rem;
+  height: 4.7rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.7rem;
+  border: 0.3rem solid #fff;
+  border-radius: 50%;
+  background: #fbbf24;
+  color: #78350f;
+  font-size: 1.8rem;
+  box-shadow:
+    0 0.8rem 1.5rem
+    rgb(251 191 36 / 32%);
+  transition: transform 150ms ease;
+
+  &:hover {
+    transform: scale(1.08);
+  }
+
+  &:active {
+    transform: scale(0.94);
+  }
+
+  &:focus-visible {
+    outline: 0.3rem solid #2563eb;
+    outline-offset: 0.2rem;
+  }
+}
+
+.sentence-board {
+  display: flex;
+  width: min(100%, 48rem);
+  min-height: 8rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  margin: 2rem auto 0;
+  padding: 1.5rem;
+  border: 0.25rem dashed #6ee7b7;
+  border-radius: 2rem;
+  background: rgb(255 255 255 / 82%);
+  color: #1e3a8a;
+  font-size: clamp(1.6rem, 5vw, 2.5rem);
+  font-weight: 900;
+  line-height: 1.5;
+}
+
+.missing-word {
+  display: inline-flex;
+  min-width: 8rem;
+  min-height: 4.5rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 1rem;
+  border: 0.25rem dashed #c084fc;
+  border-radius: 1.2rem;
+  background: #faf5ff;
+  color: #a855f7;
+  animation:
+    missing-pulse 1.5s ease-in-out infinite;
+}
+
+.missing-word--completed {
+  border-style: solid;
+  border-color: #fff;
+  background:
+    linear-gradient(
+      145deg,
+      #86efac,
+      #34d399
+    );
+  color: #065f46;
+  animation:
+    completed-word 350ms ease-out;
+}
+
+.option-board {
+  display: grid;
+  width: min(100%, 44rem);
+  gap: 1rem;
+  margin: 2rem auto 0;
+  padding: 1.2rem;
+  border-radius: 2rem;
+  background: rgb(219 234 254 / 55%);
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+}
+
+.word-option {
+  min-height: 5rem;
+  cursor: pointer;
+  border: 0.25rem solid #fff;
+  border-radius: 1.5rem;
+  background:
+    linear-gradient(
+      145deg,
+      #bfdbfe,
+      #c4b5fd
+    );
+  color: #312e81;
+  font-size: 1.3rem;
+  font-weight: 900;
+  box-shadow:
+    0 0.6rem 1rem
+    rgb(79 70 229 / 16%);
+  transition:
+    box-shadow 150ms ease,
+    filter 150ms ease,
+    transform 150ms ease;
+
+  &:hover:not(:disabled) {
+    filter: saturate(1.12);
+    transform: translateY(-0.25rem);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+
+  &:focus-visible {
+    outline: 0.3rem solid #2563eb;
+    outline-offset: 0.2rem;
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.7;
+  }
+}
+
+.word-option--selected {
+  background:
+    linear-gradient(
+      145deg,
+      #86efac,
+      #34d399
+    );
+  color: #064e3b;
+  transform: scale(1.04);
+  box-shadow:
+    0 0 0 0.3rem
+      rgb(16 185 129 / 18%);
+}
+
+@keyframes picture-arrival {
+  from {
+    opacity: 0;
+    transform:
+      translateY(-1rem)
+      scale(0.7);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+@keyframes missing-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes completed-word {
+  from {
+    transform: scale(0.5);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 640px) {
+  .sentence-board {
+    min-height: 7rem;
+    padding: 1rem;
+    border-radius: 1.5rem;
+  }
+
+  .missing-word {
+    min-width: 6rem;
+    min-height: 3.8rem;
+  }
+
+  .option-board {
+    grid-template-columns: 1fr;
+    padding: 0.8rem;
+  }
+
+  .word-option {
+    min-height: 4.2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sentence-picture,
+  .missing-word,
+  .missing-word--completed {
+    animation: none;
+  }
+
+  .sound-button,
+  .word-option {
+    transition: none;
+  }
+}

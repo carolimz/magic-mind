@@ -1,0 +1,226 @@
+:host {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.sequence-game {
+  background: radial-gradient(circle at 12% 15%, rgb(125 211 252 / 22%), transparent 20%),
+    radial-gradient(circle at 88% 18%, rgb(196 181 253 / 25%), transparent 22%),
+    linear-gradient(145deg, rgb(255 255 255 / 97%), rgb(239 246 255 / 92%));
+}
+
+.reading-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sound-button {
+  display: inline-flex;
+  width: 4rem;
+  height: 4rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border: 0.25rem solid #fff;
+  border-radius: 50%;
+  background: #fbbf24;
+  color: #78350f;
+  font-size: 1.5rem;
+  box-shadow: 0 0.5rem 1rem rgb(251 191 36 / 32%);
+  transition: transform 150ms ease;
+
+  &:hover {
+    transform: scale(1.08);
+  }
+
+  &:active {
+    transform: scale(0.94);
+  }
+}
+
+.reading-card {
+  position: relative;
+  width: min(100%, 48rem);
+  margin: 1.5rem auto 0;
+  padding: 1.5rem 1.2rem;
+  border: 0.25rem solid #bfdbfe;
+  border-radius: 2rem;
+  background: rgb(255 255 255 / 88%);
+  box-shadow: 0 0.5rem 1rem rgb(37 99 235 / 10%);
+  transition: border-color 300ms, background-color 300ms;
+
+  &--error {
+    border-color: #fca5a5;
+    background: #fef2f2;
+  }
+
+  p {
+    margin: 0;
+    color: #1e3a8a;
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: left;
+  }
+}
+
+.reading-card__icon {
+  position: absolute;
+  top: -1.5rem;
+  left: 50%;
+  display: flex;
+  width: 3rem;
+  height: 3rem;
+  align-items: center;
+  justify-content: center;
+  border: 0.25rem solid #fff;
+  border-radius: 50%;
+  background: #dbeafe;
+  font-size: 1.4rem;
+  transform: translateX(-50%);
+}
+
+.drag-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.section-label {
+  color: #64748b;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.drop-zone {
+  display: flex;
+  gap: 1rem;
+  min-height: 8rem;
+  padding: 1rem;
+  border-radius: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  &--bank {
+    background: rgb(241 245 249 / 80%);
+    border: 3px dashed #cbd5e1;
+    min-width: 15rem;
+  }
+
+  &--timeline {
+    background: rgb(219 234 254 / 50%);
+    border: 3px solid #93c5fd;
+    min-width: 15rem;
+    transition: border-color 300ms, background-color 300ms;
+
+    &.drop-zone--error {
+      border-color: #ef4444;
+      background-color: #fee2e2;
+      animation: shake 500ms;
+    }
+  }
+}
+
+.draggable-image {
+  position: relative;
+  width: 6rem;
+  height: 6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border: 3px solid #e2e8f0;
+  border-radius: 1rem;
+  cursor: grab;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+
+  &:active {
+    cursor: grabbing;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  }
+}
+
+.image-placeholder {
+  font-size: 3rem;
+}
+
+.order-badge {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  background: #3b82f6;
+  color: white;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.2);
+}
+
+.empty-slot {
+  position: relative;
+  width: 6rem;
+  height: 6rem;
+  border: 3px dashed #94a3b8;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(255 255 255 / 40%);
+  
+  .order-badge {
+    background: #94a3b8;
+  }
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 1rem;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.2);
+  transform: scale(1.05);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.3;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.drop-zone.cdk-drop-list-dragging .draggable-image:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+}
+
+@media (max-width: 640px) {
+  .reading-card {
+    padding: 1.5rem 1rem 1rem;
+  }
+  
+  .draggable-image, .empty-slot {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  .image-placeholder {
+    font-size: 2.5rem;
+  }
+}

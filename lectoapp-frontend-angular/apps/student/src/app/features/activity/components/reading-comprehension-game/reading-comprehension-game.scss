@@ -1,0 +1,260 @@
+:host {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.reading-game {
+  background:
+    radial-gradient(
+      circle at 12% 15%,
+      rgb(125 211 252 / 22%),
+      transparent 20%
+    ),
+    radial-gradient(
+      circle at 88% 18%,
+      rgb(196 181 253 / 25%),
+      transparent 22%
+    ),
+    linear-gradient(
+      145deg,
+      rgb(255 255 255 / 97%),
+      rgb(239 246 255 / 92%)
+    );
+}
+
+.reading-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.reading-picture {
+  font-size: clamp(4.5rem, 10vw, 7rem);
+  line-height: 1.2;
+  filter:
+    drop-shadow(
+      0 0.7rem 0.6rem
+      rgb(15 23 42 / 15%)
+    );
+  animation:
+    picture-arrival 600ms ease-out;
+}
+
+.sound-button {
+  display: inline-flex;
+  width: 4.8rem;
+  height: 4.8rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border: 0.3rem solid #fff;
+  border-radius: 50%;
+  background: #fbbf24;
+  color: #78350f;
+  font-size: 1.8rem;
+  box-shadow:
+    0 0.8rem 1.5rem
+    rgb(251 191 36 / 32%);
+  transition: transform 150ms ease;
+
+  &:hover {
+    transform: scale(1.08);
+  }
+
+  &:active {
+    transform: scale(0.94);
+  }
+
+  &:focus-visible {
+    outline: 0.3rem solid #2563eb;
+    outline-offset: 0.2rem;
+  }
+}
+
+.reading-card {
+  position: relative;
+  width: min(100%, 48rem);
+  margin: 1.5rem auto 0;
+  padding: 2rem 1.7rem 1.7rem;
+  border: 0.25rem solid #bfdbfe;
+  border-radius: 2rem;
+  background: rgb(255 255 255 / 88%);
+  box-shadow:
+    0 0.7rem 1.5rem
+    rgb(37 99 235 / 10%);
+
+  p {
+    margin: 0;
+    color: #1e3a8a;
+    font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+    font-weight: 700;
+    line-height: 1.65;
+    text-align: left;
+  }
+}
+
+.reading-card__icon {
+  position: absolute;
+  top: -1.7rem;
+  left: 50%;
+  display: flex;
+  width: 3.5rem;
+  height: 3.5rem;
+  align-items: center;
+  justify-content: center;
+  border: 0.25rem solid #fff;
+  border-radius: 50%;
+  background: #dbeafe;
+  font-size: 1.6rem;
+  transform: translateX(-50%);
+}
+
+.question-card {
+  width: min(100%, 45rem);
+  margin: 1.5rem auto 0;
+  padding: 1.3rem;
+  border-radius: 1.7rem;
+  background:
+    linear-gradient(
+      145deg,
+      #ede9fe,
+      #fae8ff
+    );
+
+  h1 {
+    margin: 0.4rem 0 0;
+    color: #581c87;
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 900;
+    line-height: 1.35;
+  }
+}
+
+.question-card__label {
+  margin: 0;
+  color: #7e22ce;
+  font-size: 0.85rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.option-board {
+  display: grid;
+  width: min(100%, 46rem);
+  gap: 1rem;
+  margin: 1.5rem auto 0;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+}
+
+.answer-option {
+  min-height: 5rem;
+  cursor: pointer;
+  padding: 0.8rem 1rem;
+  border: 0.25rem solid #fff;
+  border-radius: 1.5rem;
+  background:
+    linear-gradient(
+      145deg,
+      #bfdbfe,
+      #c4b5fd
+    );
+  color: #312e81;
+  font-size: 1.15rem;
+  font-weight: 900;
+  line-height: 1.3;
+  box-shadow:
+    0 0.6rem 1rem
+    rgb(79 70 229 / 14%);
+  transition:
+    box-shadow 150ms ease,
+    filter 150ms ease,
+    transform 150ms ease;
+
+  &:hover:not(:disabled) {
+    filter: saturate(1.12);
+    transform: translateY(-0.25rem);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+
+  &:focus-visible {
+    outline: 0.3rem solid #2563eb;
+    outline-offset: 0.2rem;
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.7;
+  }
+}
+
+.answer-option--selected {
+  background:
+    linear-gradient(
+      145deg,
+      #86efac,
+      #34d399
+    );
+  color: #064e3b;
+  transform: scale(1.03);
+  box-shadow:
+    0 0 0 0.3rem
+      rgb(16 185 129 / 18%);
+}
+
+@keyframes picture-arrival {
+  from {
+    opacity: 0;
+    transform:
+      translateY(-1rem)
+      scale(0.7);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+@media (max-width: 640px) {
+  .reading-header {
+    gap: 1rem;
+  }
+
+  .reading-card {
+    padding:
+      1.8rem 1rem 1.2rem;
+    border-radius: 1.5rem;
+  }
+
+  .question-card {
+    padding: 1rem;
+  }
+
+  .option-board {
+    grid-template-columns: 1fr;
+  }
+
+  .answer-option {
+    min-height: 4.3rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reading-picture {
+    animation: none;
+  }
+
+  .sound-button,
+  .answer-option {
+    transition: none;
+  }
+}

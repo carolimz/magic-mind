@@ -1,0 +1,118 @@
+<article
+  class="spatial-game flex h-full flex-1 flex-col rounded-[2.5rem] border-4 border-white p-6 text-center shadow-xl sm:p-10"
+>
+  <div>
+    <p class="text-lg font-black text-purple-700">
+      Mira con atención
+    </p>
+
+    <button
+      type="button"
+      class="sound-button"
+      aria-label="Escuchar la pregunta"
+      (click)="speakInstruction()"
+    >
+      <i
+        class="pi pi-volume-up"
+        aria-hidden="true"
+      ></i>
+    </button>
+  </div>
+
+  <div
+    class="spatial-board"
+    aria-label="Pista visual de dirección"
+  >
+    @if (isArrowExercise()) {
+      <div
+        class="arrow-visual"
+        aria-hidden="true"
+      >
+        {{ arrowIcon() }}
+      </div>
+    } @else {
+      <div
+        class="center-reference"
+        aria-hidden="true"
+      >
+        🎯
+      </div>
+
+      <div
+        class="spatial-object"
+        [class.spatial-object--arriba]="
+          direction() === 'arriba'
+        "
+        [class.spatial-object--abajo]="
+          direction() === 'abajo'
+        "
+        [class.spatial-object--izquierda]="
+          direction() === 'izquierda'
+        "
+        [class.spatial-object--derecha]="
+          direction() === 'derecha'
+        "
+        aria-hidden="true"
+      >
+        {{ visualEmoji() }}
+      </div>
+    }
+  </div>
+
+  <div
+    class="direction-options"
+    aria-label="Direcciones disponibles"
+  >
+    @for (
+      option of item().opciones;
+      track option
+    ) {
+      <button
+        type="button"
+        class="direction-option"
+        [class.direction-option--selected]="
+          selectedAnswer() === option
+        "
+        [disabled]="submitting()"
+        [attr.aria-label]="
+          'Dirección ' + option
+        "
+        (click)="selectOption(option)"
+      >
+        <span
+          class="direction-option__icon"
+          aria-hidden="true"
+        >
+          {{ directionIcon(option) }}
+        </span>
+
+        <span class="direction-option__label">
+          {{ option }}
+        </span>
+      </button>
+    }
+  </div>
+
+  <div class="mt-auto pt-8">
+    <p-button
+      [label]="
+        lastItem()
+          ? 'Terminar'
+          : '¡Listo!'
+      "
+      [icon]="
+        lastItem()
+          ? 'pi pi-check'
+          : 'pi pi-arrow-right'
+      "
+      iconPos="right"
+      size="large"
+      [loading]="submitting()"
+      [disabled]="
+        !selectedAnswer() ||
+        submitting()
+      "
+      (onClick)="continue()"
+    />
+  </div>
+</article>

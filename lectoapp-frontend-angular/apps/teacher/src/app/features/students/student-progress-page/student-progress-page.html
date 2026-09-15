@@ -1,0 +1,222 @@
+<main class="progress-page">
+  <div class="progress-page__content">
+    <button type="button" class="back-button" (click)="returnToStudents()">
+      <i class="pi pi-arrow-left" aria-hidden="true"></i>
+      Volver a estudiantes
+    </button>
+
+    @if (loading()) {
+    <section class="progress-loading">
+      <i class="pi pi-spin pi-spinner" aria-hidden="true"></i>
+      <p>Preparando el progreso...</p>
+    </section>
+    } @else if (errorMessage()) {
+    <section class="progress-error">
+      <div class="progress-error__icon" aria-hidden="true">😕</div>
+      <h1>No pudimos cargar el progreso</h1>
+      <p>{{ errorMessage() }}</p>
+      <div class="progress-error__actions">
+        <button type="button" class="action-button action-button--secondary"
+          (click)="returnToStudents()">Volver</button>
+        <button type="button" class="action-button action-button--primary" (click)="retry()">Intentar
+          nuevamente</button>
+      </div>
+    </section>
+    } @else if (student(); as currentStudent) {
+
+    <!-- ─── Banner del estudiante ──────────────────────────────────── -->
+    <section class="student-banner">
+      <div>
+        <p class="student-banner__eyebrow">Seguimiento individual</p>
+        <h1>
+          {{ currentStudent.nombre }}
+          {{ currentStudent.apellido }}
+        </h1>
+        <div class="student-banner__information">
+          <span>Código: {{ currentStudent.codigoAcceso }}</span>
+          <span>
+            Nacimiento:
+            {{ currentStudent.fechaNacimiento | date: 'dd/MM/yyyy' }}
+          </span>
+          <span [class.student-banner__status--active]="currentStudent.activo"
+            [class.student-banner__status--inactive]="!currentStudent.activo">
+            {{ currentStudent.activo ? 'Estudiante activo' : 'Estudiante inactivo' }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Botón IA en el banner -->
+      <div class="student-banner__actions">
+        <button id="btn-generate-ai-report" type="button" class="ai-report-button" (click)="openAiReport()">
+          <span class="ai-report-button__icon" aria-hidden="true">✨</span>
+          <span>Generar reporte con IA</span>
+        </button>
+        <div class="student-banner__avatar" aria-hidden="true">🧒</div>
+      </div>
+    </section>
+
+    <!-- ─── KPIs de Estadísticas ───────────────────────────────────── -->
+    @if (statsSummary(); as stats) {
+    <section class="stats-section">
+      <h2 class="stats-section__title">📊 Estadísticas de desempeño</h2>
+      <div class="kpi-grid">
+
+        <article class="kpi-card kpi-card--blue">
+          <div class="kpi-card__icon" aria-hidden="true">📚</div>
+          <div class="kpi-card__value">{{ stats.actividadesRealizadas }}</div>
+          <div class="kpi-card__label">Actividades realizadas</div>
+        </article>
+
+        <article class="kpi-card kpi-card--purple">
+          <div class="kpi-card__icon" aria-hidden="true">⭐</div>
+          <div class="kpi-card__value">
+            {{ stats.promedioGeneral !== null ? (stats.promedioGeneral | number: '1.0-1') : '—' }}
+          </div>
+          <div class="kpi-card__label">Promedio general (pts)</div>
+        </article>
+
+        <article class="kpi-card kpi-card--green">
+          <div class="kpi-card__icon" aria-hidden="true">🎯</div>
+          <div class="kpi-card__value">
+            {{ stats.porcentajeExito !== null ? (stats.porcentajeExito | number: '1.0-0') + '%' : '—' }}
+          </div>
+          <div class="kpi-card__label">Porcentaje de éxito</div>
+        </article>
+
+        <article class="kpi-card kpi-card--amber">
+          <div class="kpi-card__icon" aria-hidden="true">🗺️</div>
+          <div class="kpi-card__value kpi-card__value--sm">
+            {{ stats.nombreEtapa ?? 'Sin etapa' }}
+          </div>
+          <div class="kpi-card__label">Etapa actual</div>
+        </article>
+
+      </div>
+    </section>
+    }
+
+    <!-- ─── Progreso por Etapas ────────────────────────────────────── -->
+    @if (stageProgress().length > 0) {
+    <section class="stats-section">
+      <h2 class="stats-section__title">🗂️ Progreso por etapas</h2>
+      <div class="stage-list">
+        @for (stage of stageProgress(); track stage.orden) {
+        <div class="stage-item">
+          <div class="stage-item__header">
+            <span class="stage-item__name">{{ stage.nombreEtapa }}</span>
+            <span class="stage-item__count">
+              {{ stage.actividadesCompletadas }}/{{ stage.totalActividades }}
+            </span>
+          </div>
+          <div class="stage-item__bar-bg">
+            <div class="stage-item__bar-fill" [style.width.%]="stage.porcentajeCompletado"
+              [class.stage-item__bar-fill--done]="stage.porcentajeCompletado === 100"></div>
+          </div>
+          <span class="stage-item__pct">{{ stage.porcentajeCompletado | number: '1.0-0' }}%</span>
+        </div>
+        }
+      </div>
+    </section>
+    }
+
+    <!-- ─── Errores Frecuentes ─────────────────────────────────────── -->
+    @if (frequentErrors().length > 0) {
+    <section class="stats-section">
+      <h2 class="stats-section__title">⚠️ Errores más frecuentes</h2>
+      <div class="error-list">
+        @for (err of frequentErrors(); track err.tipoError; let i = $index) {
+        <div class="error-item">
+          <span class="error-item__rank">{{ i + 1 }}</span>
+          <span class="error-item__type">{{ err.tipoError.replace(/_/g, ' ') }}</span>
+          <span class="error-item__count">{{ err.frecuencia }} veces</span>
+        </div>
+        }
+      </div>
+    </section>
+    }
+
+    <!-- ─── Resumen anterior (componentes existentes) ─────────────── -->
+    @if (summary(); as currentSummary) {
+    <section class="progress-page__summary">
+      <app-progress-summary [summary]="currentSummary" [results]="results()" />
+    </section>
+    }
+
+    <section class="progress-page__history">
+      <app-result-history [results]="results()" />
+    </section>
+
+    }
+  </div>
+</main>
+
+<!-- ─── Modal de Reporte IA ───────────────────────────────────────────────── -->
+@if (showAiModal()) {
+<div class="ai-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="ai-modal-title" (click)="onBackdropClick($event)"
+  (keydown.escape)="closeAiModal()">
+  <div class="ai-modal">
+    <!-- Header del modal -->
+    <div class="ai-modal__header">
+      <div class="ai-modal__header-left">
+        <span class="ai-modal__gem" aria-hidden="true">✨</span>
+        <div>
+          <h2 id="ai-modal-title" class="ai-modal__title">Informe Psicopedagógico IA</h2>
+          <p class="ai-modal__subtitle">Magic Mind · Inteligencia Artificial Pedagógica</p>
+        </div>
+      </div>
+      <div class="ai-modal__header-actions">
+        @if (aiReport()) {
+        <button type="button" class="ai-modal__action-btn" aria-label="Descargar PDF" title="Descargar como PDF"
+          (click)="downloadPdf()">
+          <i class="pi pi-print"></i>
+        </button>
+        }
+        <button type="button" class="ai-modal__action-btn ai-modal__action-btn--close" aria-label="Cerrar modal"
+          (click)="closeAiModal()">
+          <i class="pi pi-times"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Cuerpo del modal -->
+    <div class="ai-modal__body" id="ai-report-content">
+      @if (aiLoading()) {
+      <div class="ai-modal__loading">
+        <div class="ai-modal__loading-ring">
+          <span aria-hidden="true">✨</span>
+        </div>
+        <p>Analizando el desempeño y elaborando informe pedagógico…</p>
+        <p class="ai-modal__loading-hint">Esto puede tardar unos segundos</p>
+      </div>
+      } @else if (aiError()) {
+      <div class="ai-modal__error-state">
+        <div class="ai-modal__error-icon" aria-hidden="true">⚠️</div>
+        <p>{{ aiError() }}</p>
+        <button type="button" class="action-button action-button--primary" (click)="retryAiReport()">
+          Reintentar
+        </button>
+      </div>
+      } @else if (aiReport(); as report) {
+      <div class="ai-modal__print-header">
+        <div class="ai-modal__print-title-box">
+          <h1 class="ai-modal__print-title">Magic Mind · Informe Psicopedagógico</h1>
+          <p class="ai-modal__print-subtitle">Plataforma de Estimulación y Aprendizaje Lectoescritor</p>
+        </div>
+      </div>
+      <div class="ai-modal__meta">
+        <span>👤 <strong>Estudiante:</strong> {{ report.nombreEstudiante }}</span>
+        <span>📅 <strong>Fecha de Emisión:</strong> {{ report.generadoEn | date: 'dd/MM/yyyy HH:mm' }}</span>
+        <span>🏫 <strong>Docente:</strong> {{ teacherName() }}</span>
+      </div>
+      <div class="ai-modal__markdown" [innerHTML]="markdownToHtml(report.contenidoMarkdown)"></div>
+      <div class="ai-modal__print-footer">
+        <div class="ai-modal__signature-box">
+          <div class="ai-modal__signature-line"></div>
+          <p>Firma y Sello del Evaluador / Docente</p>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>
+}

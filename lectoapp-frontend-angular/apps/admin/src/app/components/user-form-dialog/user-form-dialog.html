@@ -1,0 +1,202 @@
+<div class="dialog-backdrop">
+  <button
+    type="button"
+    class="dialog-backdrop__dismiss"
+    aria-label="Cerrar formulario de usuario"
+    [disabled]="saving()"
+    (click)="close()"
+  ></button>
+
+  <section
+    class="user-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="user-dialog-title"
+  >
+    <button
+      type="button"
+      class="user-dialog__close"
+      aria-label="Cerrar formulario"
+      [disabled]="saving()"
+      (click)="close()"
+    >
+      <i
+        class="pi pi-times"
+        aria-hidden="true"
+      ></i>
+    </button>
+
+    <div
+      class="user-dialog__icon"
+      aria-hidden="true"
+    >
+      👩‍🏫
+    </div>
+
+    <p class="user-dialog__eyebrow">
+      Nueva cuenta
+    </p>
+
+    <h2 id="user-dialog-title">
+      Crear usuario
+    </h2>
+
+    <p class="user-dialog__description">
+      Registra una cuenta para un docente o administrador.
+    </p>
+
+    <form
+      [formGroup]="userForm"
+      (ngSubmit)="submit()"
+    >
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="user-name">
+            Nombre
+          </label>
+
+          <input
+            id="user-name"
+            type="text"
+            formControlName="nombre"
+            maxlength="50"
+            autocomplete="off"
+            placeholder="Ejemplo: Laura"
+          />
+
+          @if (
+            userForm.controls.nombre.touched &&
+            userForm.controls.nombre.invalid
+          ) {
+            <small>
+              El nombre es obligatorio.
+            </small>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="user-lastname">
+            Apellido
+          </label>
+
+          <input
+            id="user-lastname"
+            type="text"
+            formControlName="apellido"
+            maxlength="50"
+            autocomplete="off"
+            placeholder="Ejemplo: Gómez"
+          />
+
+          @if (
+            userForm.controls.apellido.touched &&
+            userForm.controls.apellido.invalid
+          ) {
+            <small>
+              El apellido es obligatorio.
+            </small>
+          }
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="user-email">
+          Correo electrónico
+        </label>
+
+        <input
+          id="user-email"
+          type="email"
+          formControlName="correo"
+          maxlength="100"
+          autocomplete="email"
+          placeholder="docente@lectoapp.com"
+        />
+
+        @if (
+          userForm.controls.correo.touched &&
+          userForm.controls.correo.invalid
+        ) {
+          <small>
+            Ingresa un correo electrónico válido.
+          </small>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="user-password">
+          Contraseña temporal
+        </label>
+
+        <input
+          id="user-password"
+          type="password"
+          formControlName="password"
+          autocomplete="new-password"
+          placeholder="Mínimo 8 caracteres"
+        />
+
+        @if (
+          userForm.controls.password.touched &&
+          userForm.controls.password.invalid
+        ) {
+          <small>
+            La contraseña debe tener al menos 8 caracteres.
+          </small>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="user-role">
+          Tipo de cuenta
+        </label>
+
+        <select
+          id="user-role"
+          formControlName="rol"
+        >
+          <option value="DOCENTE">
+            Docente
+          </option>
+
+          <option value="ADMIN">
+            Administrador
+          </option>
+        </select>
+      </div>
+
+      <div class="user-dialog__actions">
+        <button
+          type="button"
+          class="dialog-button dialog-button--secondary"
+          [disabled]="saving()"
+          (click)="close()"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="submit"
+          class="dialog-button dialog-button--primary"
+          [disabled]="saving()"
+        >
+          @if (saving()) {
+            <i
+              class="pi pi-spin pi-spinner"
+              aria-hidden="true"
+            ></i>
+
+            Guardando...
+          } @else {
+            <i
+              class="pi pi-check"
+              aria-hidden="true"
+            ></i>
+
+            Crear cuenta
+          }
+        </button>
+      </div>
+    </form>
+  </section>
+</div>

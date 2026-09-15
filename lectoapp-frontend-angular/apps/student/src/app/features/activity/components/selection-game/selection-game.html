@@ -1,0 +1,72 @@
+<article
+  class="flex h-full flex-1 flex-col rounded-[2.5rem] border-4 border-white bg-white/90 p-7 text-center shadow-xl sm:p-10"
+>
+  <p
+    class="text-sm font-black uppercase tracking-[0.2em] text-purple-600"
+  >
+    Elige una respuesta
+  </p>
+
+  <h1
+    class="mx-auto mt-4 max-w-2xl text-3xl font-black text-slate-800 sm:text-4xl"
+  >
+    {{ item().pregunta }}
+  </h1>
+
+  @if (item().recurso) {
+    <div
+      class="mx-auto mt-6 flex min-h-32 w-full max-w-sm items-center justify-center rounded-3xl bg-sky-50 p-5"
+    >
+      <span class="font-bold text-slate-500">
+        {{ item().recurso }}
+      </span>
+    </div>
+  }
+
+  <div
+    class="mx-auto mt-8 grid w-full max-w-2xl gap-4 sm:grid-cols-2"
+  >
+    @for (
+      option of item().opciones;
+      track option
+    ) {
+      <button
+        type="button"
+        class="answer-option min-h-20 rounded-3xl border-4 px-5 py-4 text-xl font-black"
+        [class.answer-option--selected]="
+          selectedAnswer() === option
+        "
+        [class.answer-option--idle]="
+          selectedAnswer() !== option
+        "
+        [disabled]="submitting()"
+        (click)="selectAnswer(option)"
+      >
+        {{ option }}
+      </button>
+    }
+  </div>
+
+  <div class="mt-auto pt-8">
+    <p-button
+      [label]="
+        lastItem()
+          ? 'Terminar'
+          : 'Siguiente'
+      "
+      [icon]="
+        lastItem()
+          ? 'pi pi-check'
+          : 'pi pi-arrow-right'
+      "
+      iconPos="right"
+      size="large"
+      [loading]="submitting()"
+      [disabled]="
+        !selectedAnswer() ||
+        submitting()
+      "
+      (onClick)="continue()"
+    />
+  </div>
+</article>

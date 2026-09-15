@@ -1,0 +1,198 @@
+<main class="flex min-h-screen flex-col bg-gradient-to-br from-sky-100 via-white to-purple-100">
+  <header class="border-b-4 border-white bg-white/90 shadow-sm">
+    <div class="mx-auto flex w-full max-w-5xl items-center justify-between gap-4 px-5 py-4">
+      <button type="button"
+        class="flex items-center gap-2 rounded-full bg-slate-100 px-4 py-3 font-bold text-slate-600 hover:bg-slate-200"
+        (click)="returnToPath()">
+        <i class="pi pi-arrow-left" aria-hidden="true"></i>
+
+        <span class="hidden sm:inline">
+          Volver
+        </span>
+      </button>
+
+      @if (activity(); as currentActivity) {
+      <div class="min-w-0 text-center">
+        <p class="truncate text-lg font-black text-blue-800">
+          {{ currentActivity.nombre }}
+        </p>
+
+        <p class="text-sm font-semibold text-slate-500">
+          {{ currentIndex() + 1 }} /
+          {{
+          currentActivity.configuracion
+          .items.length
+          }}
+        </p>
+      </div>
+      }
+
+      <div class="flex size-12 items-center justify-center rounded-2xl bg-blue-600 text-2xl" aria-hidden="true">
+        🦉
+      </div>
+    </div>
+  </header>
+
+  @if (loading()) {
+  <section class="flex flex-1 flex-col items-center justify-center p-6">
+    <i class="pi pi-spin pi-spinner text-6xl text-blue-600" aria-hidden="true"></i>
+
+    <p class="mt-5 text-xl font-black text-slate-600">
+      Preparando el juego...
+    </p>
+  </section>
+  } @else if (
+  errorMessage() &&
+  !activity()
+  ) {
+  <section class="flex flex-1 items-center justify-center p-6">
+    <div class="max-w-lg rounded-3xl bg-white p-8 text-center shadow-xl">
+      <div class="text-6xl" aria-hidden="true">
+        😕
+      </div>
+
+      <p class="mt-5 text-lg font-bold text-red-700">
+        {{ errorMessage() }}
+      </p>
+
+      <p-button label="Volver" icon="pi pi-arrow-left" class="mt-6" (onClick)="returnToPath()" />
+    </div>
+  </section>
+  } @else if (
+  result();
+  as activityResult
+  ) {
+  <app-activity-result [result]="activityResult" (retryRequested)="retry()" (returnRequested)="returnToPath()" />
+  } @else if (
+  activity();
+  as currentActivity
+  ) {
+  <section class="mx-auto flex w-full max-w-5xl flex-1 flex-col px-5 py-7">
+    <div class="mb-7 h-5 overflow-hidden rounded-full bg-white shadow-inner" role="progressbar"
+      aria-label="Progreso de la actividad" [attr.aria-valuenow]="
+          progressPercentage()
+        " aria-valuemin="0" aria-valuemax="100">
+      <div class="h-full rounded-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300"
+        [style.width.%]="
+            progressPercentage()
+          "></div>
+    </div>
+
+    @if (isMemoryActivity()) {
+    <app-memory-game [items]="matchingItems()" [submitting]="submitting()" [lastItem]="true"
+      (completed)="handleMemoryCompleted()" />
+    } @else if (currentItem(); as item) {
+    @if (isDragItem(item)) {
+    <app-syllable-game [item]="item" [lastItem]="isLastItem()" [submitting]="submitting()" (answered)="
+              handleAutomaticAnswer(
+                item.id,
+                $event
+              )
+            " />
+    } @else if (
+    isSelectionItem(item)
+    ) {
+    @if (
+    isSpatialDirectionItem()
+    ) {
+    <app-spatial-direction-game [item]="item" [selectedAnswer]="
+                selectedAnswer(item.id)
+              " [lastItem]="isLastItem()" [submitting]="submitting()" (answerSelected)="
+                selectAnswer(
+                  item.id,
+                  $event
+                )
+              " (continueRequested)="
+                continue()
+              " />
+    } @else if (
+    isStorySequenceItem()
+    ) {
+    <app-story-sequence-game [item]="item" [lastItem]="isLastItem()" [submitting]="submitting()" (answered)="
+                handleAutomaticAnswer(
+                  item.id,
+                  $event
+                )
+              " />
+    } @else if (
+    isReadingComprehensionItem(item)
+    ) {
+    <app-reading-comprehension-game [item]="item" [selectedAnswer]="
+                selectedAnswer(item.id)
+              " [lastItem]="isLastItem()" [submitting]="submitting()" (answerSelected)="
+                selectAnswer(
+                  item.id,
+                  $event
+                )
+              " (continueRequested)="
+                continue()
+              " />
+    } @else if (
+    isSentenceCompletionItem()
+    ) {
+    <app-sentence-completion-game [item]="item" [selectedAnswer]="
+                selectedAnswer(item.id)
+              " [lastItem]="isLastItem()" [submitting]="submitting()" (answerSelected)="
+                selectAnswer(
+                  item.id,
+                  $event
+                )
+              " (continueRequested)="
+                continue()
+              " />
+    } @else if (
+    isWordCompletionItem(item)
+    ) {
+    <app-word-completion-game [item]="item" [selectedAnswer]="
+                selectedAnswer(item.id)
+              " [lastItem]="isLastItem()" [submitting]="submitting()" (answerSelected)="
+                selectAnswer(
+                  item.id,
+                  $event
+                )
+              " (continueRequested)="
+                continue()
+              " />
+    } @else if (
+    isLetterBubbleItem(item)
+    ) {
+    <app-bubble-game [item]="item" [disabled]="submitting()" (answered)="
+                handleAutomaticAnswer(
+                  item.id,
+                  $event
+                )
+              " />
+    } @else {
+    <app-selection-game [item]="item" [selectedAnswer]="
+                selectedAnswer(item.id)
+              " [lastItem]="isLastItem()" [submitting]="submitting()" (answerSelected)="
+                selectAnswer(
+                  item.id,
+                  $event
+                )
+              " (continueRequested)="
+                continue()
+              " />
+    }
+    } @else {
+    <div class="rounded-3xl bg-white p-8 text-center shadow-xl">
+      <p class="text-5xl" aria-hidden="true">
+        🧩
+      </p>
+
+      <p class="mt-4 text-lg font-bold text-slate-700">
+        Este tipo de actividad estará
+        disponible pronto.
+      </p>
+    </div>
+    }
+
+    @if (errorMessage()) {
+    <p class="mx-auto mt-5 max-w-lg rounded-2xl bg-red-50 p-4 text-center font-bold text-red-700" role="alert">
+      {{ errorMessage() }}
+    </p>
+    }
+    }
+  </section>
+  }
+</main>

@@ -1,0 +1,259 @@
+:host {
+  display: block;
+}
+
+.history {
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 2rem;
+  background: #ffffff;
+  box-shadow: 0 1rem 2.5rem rgb(15 23 42 / 7%);
+}
+
+.history__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+
+  h2 {
+    margin: 0.25rem 0 0;
+    color: #172554;
+    font-size: 1.6rem;
+    font-weight: 900;
+  }
+}
+
+.history__eyebrow {
+  margin: 0;
+  color: #7c3aed;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.history__counter {
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+.history-empty {
+  display: flex;
+  min-height: 18rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  h3 {
+    margin: 1rem 0 0.3rem;
+    color: #172554;
+    font-size: 1.25rem;
+    font-weight: 900;
+  }
+
+  p {
+    max-width: 28rem;
+    margin: 0;
+    color: #64748b;
+  }
+}
+
+.history-empty__icon {
+  font-size: 4rem;
+}
+
+.history__list {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.result-card {
+  padding: 1.2rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 1.3rem;
+  background: #f8fafc;
+}
+
+.result-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.result-card__identity {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+
+  h3 {
+    margin: 0;
+    color: #172554;
+    font-size: 1rem;
+    font-weight: 900;
+  }
+
+  p {
+    margin: 0.2rem 0 0;
+    color: #64748b;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+}
+
+.result-card__icon {
+  display: grid;
+  width: 3.4rem;
+  height: 3.4rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 1rem;
+  font-size: 1.6rem;
+}
+
+.result-card__icon--passed {
+  background: #dcfce7;
+}
+
+.result-card__icon--practice {
+  background: #ffedd5;
+}
+
+.result-card__score {
+  text-align: right;
+
+  strong {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 900;
+  }
+
+  span {
+    display: inline-block;
+    margin-top: 0.25rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 900;
+  }
+}
+
+.result-card__percentage--passed {
+  color: #047857;
+}
+
+.result-card__percentage--practice {
+  color: #c2410c;
+}
+
+.result-card__status--passed {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.result-card__status--practice {
+  background: #ffedd5;
+  color: #9a3412;
+}
+
+.result-card__statistics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
+  margin-top: 1rem;
+
+  div {
+    padding: 0.75rem;
+    border-radius: 0.8rem;
+    background: #ffffff;
+    text-align: center;
+  }
+
+  strong {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 900;
+  }
+
+  span {
+    color: #64748b;
+    font-size: 0.7rem;
+    font-weight: 800;
+  }
+}
+
+.detected-errors {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: #f3e8ff;
+
+  summary {
+    cursor: pointer;
+    color: #6b21a8;
+    font-weight: 900;
+  }
+}
+
+.detected-errors__list {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+
+.detected-error {
+  display: grid;
+  grid-template-columns: auto 1fr 1fr;
+  gap: 1rem;
+  padding: 0.9rem;
+  border-radius: 0.8rem;
+  background: #ffffff;
+
+  div span {
+    display: block;
+    color: #94a3b8;
+    font-size: 0.7rem;
+    font-weight: 800;
+  }
+
+  div strong {
+    display: block;
+    margin-top: 0.2rem;
+  }
+}
+
+.detected-error__type {
+  align-self: start;
+  padding: 0.45rem 0.7rem;
+  border-radius: 0.6rem;
+  background: #ede9fe;
+  color: #6d28d9;
+  font-size: 0.7rem;
+  font-weight: 900;
+}
+
+@media (max-width: 640px) {
+  .result-card__header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .result-card__score {
+    text-align: left;
+  }
+
+  .result-card__statistics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .detected-error {
+    grid-template-columns: 1fr;
+  }
+}

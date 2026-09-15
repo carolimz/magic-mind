@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc",
+    "types": []
+  },
+  "include": [
+    "src/**/*.ts",
+    "../../libs/shared/api/src/index.ts",
+    "../../libs/shared/models/src/index.ts",
+    "../../libs/shared/auth/src/index.ts"
+  ],
+  "exclude": [
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts"
+  ]
+}

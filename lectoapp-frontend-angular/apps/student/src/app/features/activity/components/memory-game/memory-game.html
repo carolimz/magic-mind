@@ -1,0 +1,87 @@
+<article
+    class="memory-game flex h-full flex-1 flex-col rounded-[2.5rem] border-4 border-white p-5 text-center shadow-xl sm:p-8">
+    <!-- Encabezado con progreso -->
+    <div class="memory-header">
+        <p class="memory-header__label">
+            Encuentra las parejas
+        </p>
+
+        <div class="memory-header__progress" role="status"
+            [attr.aria-label]="'Parejas encontradas: ' + matchedCount() + ' de ' + totalPairs()">
+            @for (pair of items(); track pair.id) {
+            <div class="progress-pip" [class.progress-pip--done]="
+            cards().some(
+              (c) => c.pairId === pair.id && c.matched
+            )
+          "></div>
+            }
+        </div>
+    </div>
+
+    <!-- Tablero de cartas -->
+    @if (!allMatched()) {
+    <div class="card-grid" aria-label="Tablero de memoria">
+        @for (card of cards(); track card.cardId) {
+        <button type="button" class="card-slot" [class.card-slot--flipped]="card.flipped"
+            [class.card-slot--matched]="card.matched" [disabled]="
+            card.flipped ||
+            card.matched ||
+            locked() ||
+            submitting()
+          " [attr.aria-label]="
+            card.flipped || card.matched
+              ? 'Carta: ' + card.value
+              : 'Carta boca abajo'
+          " (click)="flipCard(card)">
+            <!-- Cara trasera (boca abajo) -->
+            <div class="card-face card-face--back" aria-hidden="true">
+                🦉
+            </div>
+
+            <!-- Cara delantera (letra o emoji) -->
+            <div class="card-face card-face--front" aria-hidden="true">
+                {{ card.value }}
+            </div>
+        </button>
+        }
+    </div>
+    }
+
+    <!-- Pantalla de victoria -->
+    @if (allMatched()) {
+    <div class="victory-panel" role="status" aria-live="polite">
+        <div class="victory-panel__stars">
+            🎉
+        </div>
+
+        <p class="victory-panel__title">
+            ¡Lo lograste!
+        </p>
+
+        <p class="victory-panel__subtitle">
+            Encontraste todas las parejas
+        </p>
+    </div>
+    }
+
+    <!-- Pie: botones de acción -->
+    <div class="memory-footer">
+        <button type="button" class="restart-btn" [disabled]="submitting()" (click)="restart()">
+            <i class="pi pi-refresh" aria-hidden="true"></i>
+
+            Volver a jugar
+        </button>
+
+        @if (allMatched()) {
+        <button type="button" class="continue-btn" [disabled]="submitting()" (click)="continue()">
+            {{ lastItem() ? 'Terminar' : '¡Listo!' }}
+
+            <i [class]="
+            lastItem()
+              ? 'pi pi-check'
+              : 'pi pi-arrow-right'
+          " aria-hidden="true"></i>
+        </button>
+        }
+    </div>
+</article>

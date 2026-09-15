@@ -1,0 +1,158 @@
+<div class="dialog-backdrop">
+  <button
+    type="button"
+    class="dialog-backdrop__dismiss"
+    aria-label="Cerrar formulario de estudiante"
+    [disabled]="saving()"
+    (click)="close()"
+  ></button>
+
+  <section
+    class="student-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="student-dialog-title"
+  >
+    <button
+      type="button"
+      class="student-dialog__close"
+      aria-label="Cerrar formulario"
+      [disabled]="saving()"
+      (click)="close()"
+    >
+      <i
+        class="pi pi-times"
+        aria-hidden="true"
+      ></i>
+    </button>
+
+    <div
+      class="student-dialog__icon"
+      aria-hidden="true"
+    >
+      🧒
+    </div>
+
+    <p class="student-dialog__eyebrow">
+      Nuevo registro
+    </p>
+
+    <h2 id="student-dialog-title">
+      Crear estudiante
+    </h2>
+
+    <p class="student-dialog__description">
+      Al guardar se generará automáticamente
+      su código de acceso.
+    </p>
+
+    <form
+      [formGroup]="studentForm"
+      (ngSubmit)="submit()"
+    >
+      <div class="form-field">
+        <label for="student-name">
+          Nombre
+        </label>
+
+        <input
+          id="student-name"
+          type="text"
+          formControlName="nombre"
+          maxlength="50"
+          autocomplete="off"
+          placeholder="Ejemplo: Sofía"
+        />
+
+        @if (
+          studentForm.controls.nombre.touched &&
+          studentForm.controls.nombre.invalid
+        ) {
+          <small>
+            El nombre es obligatorio.
+          </small>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="student-lastname">
+          Apellido
+        </label>
+
+        <input
+          id="student-lastname"
+          type="text"
+          formControlName="apellido"
+          maxlength="50"
+          autocomplete="off"
+          placeholder="Ejemplo: Gómez"
+        />
+
+        @if (
+          studentForm.controls.apellido.touched &&
+          studentForm.controls.apellido.invalid
+        ) {
+          <small>
+            El apellido es obligatorio.
+          </small>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="student-birthdate">
+          Fecha de nacimiento
+        </label>
+
+        <input
+          id="student-birthdate"
+          type="date"
+          formControlName="fechaNacimiento"
+        />
+
+        @if (
+          studentForm.controls
+            .fechaNacimiento.touched &&
+          studentForm.controls
+            .fechaNacimiento.invalid
+        ) {
+          <small>
+            La fecha de nacimiento es obligatoria.
+          </small>
+        }
+      </div>
+
+      <div class="student-dialog__actions">
+        <button
+          type="button"
+          class="dialog-button dialog-button--secondary"
+          [disabled]="saving()"
+          (click)="close()"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="submit"
+          class="dialog-button dialog-button--primary"
+          [disabled]="saving()"
+        >
+          @if (saving()) {
+            <i
+              class="pi pi-spin pi-spinner"
+              aria-hidden="true"
+            ></i>
+
+            Guardando...
+          } @else {
+            <i
+              class="pi pi-check"
+              aria-hidden="true"
+            ></i>
+
+            Crear estudiante
+          }
+        </button>
+      </div>
+    </form>
+  </section>
+</div>

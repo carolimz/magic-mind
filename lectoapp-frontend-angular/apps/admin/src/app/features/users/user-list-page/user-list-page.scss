@@ -1,0 +1,277 @@
+:host {
+  display: block;
+}
+
+.user-list-page {
+  width: min(1200px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2rem 0 4rem;
+}
+
+.admin-welcome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  overflow: hidden;
+  padding: 2.25rem;
+  border-radius: 2rem;
+  background:
+    linear-gradient(
+      120deg,
+      #6d28d9,
+      #4338ca
+    );
+  color: #ffffff;
+  box-shadow:
+    0 1.5rem 3rem
+    rgb(109 40 217 / 20%);
+
+  h1 {
+    margin: 0.4rem 0 0.7rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+    line-height: 1.05;
+  }
+
+  p {
+    max-width: 42rem;
+    margin: 0;
+    color: rgb(255 255 255 / 85%);
+  }
+}
+
+.admin-welcome__eyebrow {
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.admin-welcome__illustration {
+  flex: 0 0 auto;
+  font-size: clamp(5rem, 10vw, 8rem);
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.summary-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.4rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 1.5rem;
+  background: #ffffff;
+  box-shadow:
+    0 0.8rem 2rem
+    rgb(15 23 42 / 6%);
+
+  strong {
+    display: block;
+    color: #172554;
+    font-size: 2rem;
+    font-weight: 900;
+  }
+
+  span {
+    color: #64748b;
+    font-weight: 700;
+  }
+}
+
+.summary-card__icon {
+  display: grid;
+  width: 3.8rem;
+  height: 3.8rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 1.2rem;
+  font-size: 1.8rem;
+}
+
+.summary-card__icon--purple {
+  background: #f3e8ff;
+}
+
+.summary-card__icon--blue {
+  background: #dbeafe;
+}
+
+.summary-card__icon--green {
+  background: #dcfce7;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding: 1rem 1.2rem;
+  border-radius: 1rem;
+  font-weight: 800;
+}
+
+.message--success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.message--error {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.users-panel {
+  margin-top: 1.5rem;
+  padding: 2rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 2rem;
+  background: #ffffff;
+  box-shadow:
+    0 1.2rem 3rem
+    rgb(15 23 42 / 7%);
+}
+
+.users-panel__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+
+  h2 {
+    margin: 0.2rem 0;
+    color: #172554;
+    font-size: 1.8rem;
+    font-weight: 900;
+  }
+
+  p {
+    margin: 0;
+    color: #64748b;
+  }
+}
+
+.users-panel__eyebrow {
+  color: #7c3aed !important;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.user-group {
+  margin-top: 2rem;
+}
+
+.user-group__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  h3 {
+    margin: 0;
+    color: #172554;
+    font-size: 1.2rem;
+    font-weight: 900;
+  }
+}
+
+.user-group__icon {
+  font-size: 1.5rem;
+}
+
+.user-group__counter {
+  display: grid;
+  min-width: 2.3rem;
+  height: 2.3rem;
+  place-items: center;
+  padding: 0 0.6rem;
+  border-radius: 999px;
+  background: #ede9fe;
+  color: #6d28d9;
+  font-weight: 900;
+}
+
+.user-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fill, minmax(17rem, 1fr));
+  gap: 1rem;
+}
+
+.empty-state {
+  display: flex;
+  min-height: 20rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  > .pi {
+    color: #7c3aed;
+    font-size: 3rem;
+  }
+
+  h3 {
+    margin: 1rem 0 0.35rem;
+    color: #172554;
+    font-weight: 900;
+  }
+
+  p {
+    margin: 0 0 1.2rem;
+    color: #64748b;
+  }
+}
+
+.empty-state__icon {
+  font-size: 4rem;
+}
+
+@media (max-width: 800px) {
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .user-list-page {
+    width: min(100% - 1rem, 1200px);
+    padding-top: 1rem;
+  }
+
+  .admin-welcome {
+    padding: 1.5rem;
+  }
+
+  .admin-welcome__illustration {
+    font-size: 3.5rem;
+  }
+
+  .users-panel {
+    padding: 1rem;
+  }
+
+  .users-panel__header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .user-grid {
+    grid-template-columns: 1fr;
+  }
+}

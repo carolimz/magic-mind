@@ -1,0 +1,120 @@
+<main class="flex min-h-screen items-center justify-center bg-slate-100 p-6">
+  <section class="w-full max-w-md">
+    <a
+      routerLink="/login"
+      class="mb-5 inline-flex items-center gap-2 font-semibold text-blue-700 hover:underline"
+    >
+      <i class="pi pi-arrow-left" aria-hidden="true"></i>
+      Volver al acceso infantil
+    </a>
+
+    <div class="rounded-3xl border border-slate-200 bg-white p-8 shadow-xl">
+      <div class="mb-7">
+        <img
+          src="/assets/logo.png"
+          alt="Magic Mind"
+          class="mb-5 size-16 rounded-2xl object-contain shadow-sm"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        />
+        <div
+          class="mb-5 size-14 items-center justify-center rounded-2xl bg-blue-100 text-2xl text-blue-700"
+          style="display: none;"
+        >
+          <i class="pi pi-users" aria-hidden="true"></i>
+        </div>
+
+        <p class="font-bold uppercase tracking-wider text-blue-600">
+          Magic Mind
+        </p>
+
+        <h1 class="mt-2 text-3xl font-bold text-slate-900">
+          Acceso del personal
+        </h1>
+
+        <p class="mt-2 text-slate-500">
+          Para docentes y administradores.
+        </p>
+      </div>
+
+      @if (errorMessage()) {
+        <div
+          class="mb-5 rounded-xl border border-red-200 bg-red-50 p-4 text-red-700"
+          role="alert"
+        >
+          {{ errorMessage() }}
+        </div>
+      }
+
+      <form
+        class="space-y-5"
+        [formGroup]="form"
+        (ngSubmit)="submit()"
+      >
+        <div>
+          <label
+            for="correo"
+            class="mb-2 block font-semibold text-slate-700"
+          >
+            Correo electrónico
+          </label>
+
+          <input
+            pInputText
+            id="correo"
+            type="email"
+            formControlName="correo"
+            autocomplete="username"
+            placeholder="correo@ejemplo.com"
+            class="w-full"
+          />
+
+          @if (
+            form.controls.correo.touched &&
+            form.controls.correo.invalid
+          ) {
+            <small class="mt-2 block text-red-600">
+              Ingresa un correo electrónico válido.
+            </small>
+          }
+        </div>
+
+        <div>
+          <label
+            for="password"
+            class="mb-2 block font-semibold text-slate-700"
+          >
+            Contraseña
+          </label>
+
+          <input
+            pInputText
+            id="password"
+            type="password"
+            formControlName="password"
+            autocomplete="current-password"
+            placeholder="Contraseña"
+            class="w-full"
+          />
+
+          @if (
+            form.controls.password.touched &&
+            form.controls.password.invalid
+          ) {
+            <small class="mt-2 block text-red-600">
+              La contraseña es obligatoria.
+            </small>
+          }
+        </div>
+
+        <p-button
+          type="submit"
+          label="Ingresar"
+          icon="pi pi-sign-in"
+          [loading]="loading()"
+          [disabled]="loading()"
+          styleClass="w-full justify-center"
+        />
+      </form>
+    </div>
+  </section>
+</main>

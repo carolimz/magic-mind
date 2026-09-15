@@ -1,0 +1,132 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.admin-app {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 8% 5%,
+      rgb(221 214 254 / 55%),
+      transparent 24rem
+    ),
+    radial-gradient(
+      circle at 95% 15%,
+      rgb(199 210 254 / 45%),
+      transparent 26rem
+    ),
+    #f8fafc;
+  color: #172554;
+}
+
+.admin-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid #ddd6fe;
+  background: rgb(255 255 255 / 92%);
+  backdrop-filter: blur(1rem);
+}
+
+.admin-header__content {
+  display: flex;
+  width: min(1200px, calc(100% - 2rem));
+  min-height: 4.75rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 auto;
+}
+
+.admin-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #6d28d9;
+  font-size: 1.4rem;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.admin-brand__logo {
+  width: 2.8rem;
+  height: 2.8rem;
+  object-fit: contain;
+  border-radius: 0.75rem;
+}
+
+.admin-brand__icon {
+  display: grid;
+  width: 2.8rem;
+  height: 2.8rem;
+  place-items: center;
+  border-radius: 1rem;
+  background: #ede9fe;
+  font-size: 1.45rem;
+}
+
+.admin-profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.admin-profile__information {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+
+  span {
+    color: #64748b;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  strong {
+    color: #4c1d95;
+    font-size: 0.95rem;
+  }
+}
+
+.logout-button {
+  display: inline-flex;
+  min-height: 2.8rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+  border: 0;
+  border-radius: 0.9rem;
+  background: #fee2e2;
+  color: #b91c1c;
+  font-weight: 800;
+  transition:
+    background-color 150ms ease,
+    transform 150ms ease;
+
+  &:hover {
+    background: #fecaca;
+    transform: translateY(-0.1rem);
+  }
+
+  &:focus-visible {
+    outline: 0.2rem solid #7c3aed;
+    outline-offset: 0.2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-header__content {
+    width: min(100% - 1rem, 1200px);
+  }
+
+  .admin-profile__information {
+    display: none;
+  }
+
+  .admin-brand {
+    font-size: 1.2rem;
+  }
+}

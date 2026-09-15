@@ -1,0 +1,292 @@
+<section class="student-list-page">
+  <div class="welcome-card">
+    <div>
+      <p class="welcome-card__eyebrow">
+        Panel docente
+      </p>
+
+      <h1>
+        Hola, {{ teacherName() }}
+      </h1>
+
+      <p>
+        Administra tus estudiantes y revisa cómo
+        avanzan en su ruta de aprendizaje.
+      </p>
+    </div>
+
+    <div
+      class="welcome-card__illustration"
+      aria-hidden="true"
+    >
+      👩‍🏫
+    </div>
+  </div>
+
+  <section class="summary-grid">
+    <article class="summary-card">
+      <div
+        class="summary-card__icon summary-card__icon--blue"
+        aria-hidden="true"
+      >
+        👧
+      </div>
+
+      <div>
+        <strong>
+          {{ activeStudents().length }}
+        </strong>
+
+        <span>Estudiantes activos</span>
+      </div>
+    </article>
+
+    <article class="summary-card">
+      <div
+        class="summary-card__icon summary-card__icon--purple"
+        aria-hidden="true"
+      >
+        📈
+      </div>
+
+      <div>
+        <strong>
+          {{ students().length }}
+        </strong>
+
+        <span>Estudiantes registrados</span>
+      </div>
+    </article>
+
+    <article class="summary-card">
+      <div
+        class="summary-card__icon summary-card__icon--orange"
+        aria-hidden="true"
+      >
+        💤
+      </div>
+
+      <div>
+        <strong>
+          {{ inactiveStudents().length }}
+        </strong>
+
+        <span>Estudiantes inactivos</span>
+      </div>
+    </article>
+  </section>
+
+  @if (successMessage()) {
+    <div
+      class="message message--success"
+      role="status"
+    >
+      <i
+        class="pi pi-check-circle"
+        aria-hidden="true"
+      ></i>
+
+      {{ successMessage() }}
+    </div>
+  }
+
+  @if (errorMessage()) {
+    <div
+      class="message message--error"
+      role="alert"
+    >
+      <i
+        class="pi pi-exclamation-circle"
+        aria-hidden="true"
+      ></i>
+
+      {{ errorMessage() }}
+    </div>
+  }
+
+  <section class="students-panel">
+    <div class="students-panel__header">
+      <div>
+        <p class="students-panel__eyebrow">
+          Mi grupo
+        </p>
+
+        <h2>Estudiantes</h2>
+
+        <p>
+          Consulta sus códigos y abre el
+          seguimiento individual.
+        </p>
+      </div>
+
+      <p-button
+        label="Nuevo estudiante"
+        icon="pi pi-plus"
+        (onClick)="showCreateForm()"
+      />
+    </div>
+
+    @if (loading()) {
+      <div class="empty-state">
+        <i
+          class="pi pi-spin pi-spinner"
+          aria-hidden="true"
+        ></i>
+
+        <p>Cargando estudiantes...</p>
+      </div>
+    } @else if (
+      activeStudents().length === 0
+    ) {
+      <div class="empty-state">
+        <div
+          class="empty-state__icon"
+          aria-hidden="true"
+        >
+          🧒
+        </div>
+
+        <h3>Aún no tienes estudiantes activos</h3>
+
+        <p>
+          Registra uno para generar su código
+          de acceso.
+        </p>
+
+        <p-button
+          label="Crear estudiante"
+          icon="pi pi-plus"
+          (onClick)="showCreateForm()"
+        />
+      </div>
+    } @else {
+      <div class="student-grid">
+        @for (
+          student of activeStudents();
+          track student.id
+        ) {
+          <article class="student-card">
+            <div class="student-card__top">
+              <div
+                class="student-avatar"
+                aria-hidden="true"
+              >
+                {{ student.nombre.charAt(0) }}
+                {{ student.apellido.charAt(0) }}
+              </div>
+
+              <span class="student-status">
+                Activo
+              </span>
+            </div>
+
+            <h3>
+              {{ student.nombre }}
+              {{ student.apellido }}
+            </h3>
+
+            <p class="student-birthdate">
+              <i
+                class="pi pi-calendar"
+                aria-hidden="true"
+              ></i>
+
+              Nacimiento:
+              {{
+                student.fechaNacimiento
+                  | date: 'dd/MM/yyyy'
+              }}
+            </p>
+
+            <div class="access-code">
+              <div>
+                <span>Código de acceso</span>
+
+                <strong>
+                  {{ student.codigoAcceso }}
+                </strong>
+              </div>
+
+              <button
+                type="button"
+                class="copy-button"
+                [attr.aria-label]="
+                  'Copiar código ' +
+                  student.codigoAcceso
+                "
+                (click)="
+                  copyAccessCode(
+                    student.codigoAcceso
+                  )
+                "
+              >
+                <i
+                  class="pi"
+                  [class.pi-copy]="
+                    copiedCode() !==
+                    student.codigoAcceso
+                  "
+                  [class.pi-check]="
+                    copiedCode() ===
+                    student.codigoAcceso
+                  "
+                  aria-hidden="true"
+                ></i>
+              </button>
+            </div>
+
+            <div class="student-card__actions">
+              <button
+                type="button"
+                class="student-action student-action--primary"
+                (click)="openStudent(student)"
+              >
+                <i
+                  class="pi pi-chart-line"
+                  aria-hidden="true"
+                ></i>
+
+                Ver progreso
+              </button>
+
+              <button
+                type="button"
+                class="student-action student-action--danger"
+                [disabled]="
+                  deactivatingId() === student.id
+                "
+                (click)="
+                  deactivateStudent(student)
+                "
+              >
+                @if (
+                  deactivatingId() === student.id
+                ) {
+                  <i
+                    class="pi pi-spin pi-spinner"
+                    aria-hidden="true"
+                  ></i>
+                } @else {
+                  <i
+                    class="pi pi-user-minus"
+                    aria-hidden="true"
+                  ></i>
+                }
+
+                Desactivar
+              </button>
+            </div>
+          </article>
+        }
+      </div>
+    }
+  </section>
+
+  @if (formVisible()) {
+    <app-student-form-dialog
+      [saving]="saving()"
+      (submitted)="createStudent($event)"
+      (closed)="hideCreateForm()"
+    />
+  }
+</section>

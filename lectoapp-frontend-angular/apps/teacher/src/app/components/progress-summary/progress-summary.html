@@ -1,0 +1,107 @@
+<section
+  class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4"
+  aria-label="Resumen del progreso"
+>
+  <article class="summary-item summary-item--blue">
+    <div
+      class="summary-item__icon"
+      aria-hidden="true"
+    >
+      🎮
+    </div>
+
+    <strong>
+      {{ summary().actividadesRealizadas }}
+    </strong>
+
+    <span>Actividades realizadas</span>
+  </article>
+
+  <article class="summary-item summary-item--purple">
+    <div
+      class="summary-item__icon"
+      aria-hidden="true"
+    >
+      📊
+    </div>
+
+    <strong>
+      {{
+        summary().promedioPorcentaje
+          | number: '1.0-1'
+      }}%
+    </strong>
+
+    <span>Promedio general</span>
+  </article>
+
+  <article class="summary-item summary-item--green">
+    <div
+      class="summary-item__icon"
+      aria-hidden="true"
+    >
+      ✅
+    </div>
+
+    <strong>
+      {{ totalCorrectAnswers() }}
+    </strong>
+
+    <span>Respuestas correctas</span>
+  </article>
+
+  <article class="summary-item summary-item--orange">
+    <div
+      class="summary-item__icon"
+      aria-hidden="true"
+    >
+      🏆
+    </div>
+
+    <strong>
+      {{
+        bestPercentage()
+          | number: '1.0-1'
+      }}%
+    </strong>
+
+    <span>Mejor resultado</span>
+  </article>
+</section>
+
+<section
+  class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+  aria-label="Detalle del desempeño"
+>
+  <article class="detail-item">
+    <span>Correctas</span>
+
+    <strong class="text-emerald-700">
+      {{ totalCorrectAnswers() }}
+    </strong>
+  </article>
+
+  <article class="detail-item">
+    <span>Incorrectas</span>
+
+    <strong class="text-red-700">
+      {{ totalIncorrectAnswers() }}
+    </strong>
+  </article>
+
+  <article class="detail-item">
+    <span>Errores detectados</span>
+
+    <strong class="text-purple-700">
+      {{ totalDetectedErrors() }}
+    </strong>
+  </article>
+
+  <article class="detail-item">
+    <span>Puntaje promedio</span>
+
+    <strong class="text-blue-700">
+      {{ summary().promedioPuntaje }}
+    </strong>
+  </article>
+</section>

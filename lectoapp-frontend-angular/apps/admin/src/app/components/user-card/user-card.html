@@ -1,0 +1,95 @@
+<article
+  class="user-card"
+  [class.user-card--inactive]="!user().activo"
+>
+  <div class="user-card__header">
+    <div
+      class="user-avatar"
+      [class.user-avatar--admin]="
+        user().rol === 'ADMIN'
+      "
+      [class.user-avatar--teacher]="
+        user().rol === 'DOCENTE'
+      "
+      aria-hidden="true"
+    >
+      {{ initials() }}
+    </div>
+
+    <span
+      class="user-status"
+      [class.user-status--active]="user().activo"
+      [class.user-status--inactive]="!user().activo"
+    >
+      {{
+        user().activo
+          ? 'Activo'
+          : 'Inactivo'
+      }}
+    </span>
+  </div>
+
+  <div class="user-card__identity">
+    <h3>
+      {{ user().nombre }}
+      {{ user().apellido }}
+    </h3>
+
+    <p>
+      <i
+        class="pi pi-envelope"
+        aria-hidden="true"
+      ></i>
+
+      {{ user().correo }}
+    </p>
+  </div>
+
+  <div
+    class="user-role"
+    [class.user-role--admin]="
+      user().rol === 'ADMIN'
+    "
+    [class.user-role--teacher]="
+      user().rol === 'DOCENTE'
+    "
+  >
+    <span
+      class="user-role__icon"
+      aria-hidden="true"
+    >
+      {{ roleIcon() }}
+    </span>
+
+    <div>
+      <span>Tipo de cuenta</span>
+
+      <strong>
+        {{ roleLabel() }}
+      </strong>
+    </div>
+  </div>
+
+  <div class="user-card__footer">
+    <span>
+      <i
+        class="pi pi-hashtag"
+        aria-hidden="true"
+      ></i>
+
+      Usuario {{ user().id }}
+    </span>
+
+    <span
+      class="user-card__security"
+      title="Cuenta protegida por autenticación"
+    >
+      <i
+        class="pi pi-lock"
+        aria-hidden="true"
+      ></i>
+
+      Protegida
+    </span>
+  </div>
+</article>

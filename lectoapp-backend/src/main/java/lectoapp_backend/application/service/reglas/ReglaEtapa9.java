@@ -1,0 +1,59 @@
+package lectoapp_backend.application.service.reglas;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Component;
+
+import lectoapp_backend.application.dto.request.RespuestaActividadRequest;
+import lectoapp_backend.application.service.analizador.AnalizadorComprension;
+import lectoapp_backend.domain.model.Actividad;
+import lectoapp_backend.domain.model.ErrorDetectado;
+import lectoapp_backend.domain.model.ItemActividad;
+import lectoapp_backend.shared.enums.TipoError;
+import lombok.RequiredArgsConstructor;
+
+@Component
+@RequiredArgsConstructor
+public class ReglaEtapa9 extends AbstractReglaEtapa {
+
+    private final AnalizadorComprension analizador;
+
+    @Override
+    public Long getEtapaId() {
+        return 9L;
+    }
+
+    @Override
+    public List<ErrorDetectado> detectar(
+            Actividad actividad,
+            List<ItemActividad> items,
+            List<RespuestaActividadRequest> respuestas) {
+
+        List<ErrorDetectado> errores = new ArrayList<>();
+
+        for (RespuestaActividadRequest respuesta : respuestas) {
+
+            ItemActividad item = buscarItem(items, respuesta.getItemId());
+
+            TipoError tipo = analizador.detectar(
+                    item.getRespuestaCorrecta(),
+                    respuesta.getRespuesta());
+
+            if (tipo != null) {
+
+                errores.add(
+                        crearError(
+                                item.getId(),
+                                tipo,
+                                item.getRespuestaCorrecta(),
+                                respuesta.getRespuesta()));
+
+            }
+
+        }
+
+        return errores;
+    }
+
+}

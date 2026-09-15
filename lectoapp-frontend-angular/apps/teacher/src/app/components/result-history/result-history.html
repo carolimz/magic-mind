@@ -1,0 +1,192 @@
+<section
+  class="history"
+  aria-labelledby="history-title"
+>
+  <div class="history__header">
+    <div>
+      <p class="history__eyebrow">
+        Historial
+      </p>
+
+      <h2 id="history-title">
+        Actividades realizadas
+      </h2>
+    </div>
+
+    <span class="history__counter">
+      {{ results().length }}
+      intentos
+    </span>
+  </div>
+
+  @if (results().length === 0) {
+    <div class="history-empty">
+      <div
+        class="history-empty__icon"
+        aria-hidden="true"
+      >
+        📝
+      </div>
+
+      <h3>Aún no hay resultados</h3>
+
+      <p>
+        Cuando el estudiante termine una actividad,
+        su resultado aparecerá aquí.
+      </p>
+    </div>
+  } @else {
+    <div class="history__list">
+      @for (
+        result of results();
+        track result.id
+      ) {
+        <article class="result-card">
+          <div class="result-card__header">
+            <div class="result-card__identity">
+              <div
+                class="result-card__icon"
+                [class.result-card__icon--passed]="
+                  isPassed(result)
+                "
+                [class.result-card__icon--practice]="
+                  !isPassed(result)
+                "
+                aria-hidden="true"
+              >
+                {{
+                  isPassed(result)
+                    ? '🌟'
+                    : '💪'
+                }}
+              </div>
+
+              <div>
+                <h3>
+                  Actividad
+                  {{ result.actividadId }}
+                </h3>
+
+                <p>
+                  {{
+                    result.fechaRealizacion
+                      | date: 'dd/MM/yyyy, h:mm a'
+                  }}
+                </p>
+              </div>
+            </div>
+
+            <div class="result-card__score">
+              <strong
+                [class.result-card__percentage--passed]="
+                  isPassed(result)
+                "
+                [class.result-card__percentage--practice]="
+                  !isPassed(result)
+                "
+              >
+                {{
+                  result.porcentaje
+                    | number: '1.0-1'
+                }}%
+              </strong>
+
+              <span
+                [class.result-card__status--passed]="
+                  isPassed(result)
+                "
+                [class.result-card__status--practice]="
+                  !isPassed(result)
+                "
+              >
+                {{
+                  isPassed(result)
+                    ? 'Aprobada'
+                    : 'Por reforzar'
+                }}
+              </span>
+            </div>
+          </div>
+
+          <div class="result-card__statistics">
+            <div>
+              <strong class="text-emerald-700">
+                {{ result.cantidadCorrectas }}
+              </strong>
+
+              <span>Correctas</span>
+            </div>
+
+            <div>
+              <strong class="text-red-700">
+                {{ result.cantidadIncorrectas }}
+              </strong>
+
+              <span>Incorrectas</span>
+            </div>
+
+            <div>
+              <strong class="text-blue-700">
+                {{ result.puntaje }}
+              </strong>
+
+              <span>Puntaje</span>
+            </div>
+
+            <div>
+              <strong class="text-purple-700">
+                {{ result.duracionSegundos }}s
+              </strong>
+
+              <span>Duración</span>
+            </div>
+          </div>
+
+          @if (result.errores.length > 0) {
+            <details class="detected-errors">
+              <summary>
+                Ver errores detectados
+                ({{ result.errores.length }})
+              </summary>
+
+              <div class="detected-errors__list">
+                @for (
+                  detectedError of result.errores;
+                  track $index
+                ) {
+                  <article class="detected-error">
+                    <span class="detected-error__type">
+                      {{ detectedError.tipo }}
+                    </span>
+
+                    <div>
+                      <span>Respondió</span>
+
+                      <strong class="text-red-700">
+                        {{
+                          detectedError
+                            .respuestaEstudiante
+                        }}
+                      </strong>
+                    </div>
+
+                    <div>
+                      <span>Respuesta esperada</span>
+
+                      <strong class="text-emerald-700">
+                        {{
+                          detectedError
+                            .respuestaEsperada
+                        }}
+                      </strong>
+                    </div>
+                  </article>
+                }
+              </div>
+            </details>
+          }
+        </article>
+      }
+    </div>
+  }
+</section>
