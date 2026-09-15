@@ -2,7 +2,12 @@
   "name": "@lectoapp-frontend-angular/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "build": "nx run-many -t build",
+    "build:prod": "nx run-many -t build && node scripts/assemble-dist.js",
+    "test": "nx run-many -t test",
+    "lint": "nx run-many -t lint"
+  },
   "private": true,
   "devDependencies": {
     "@analogjs/vite-plugin-angular": "~2.6.0",

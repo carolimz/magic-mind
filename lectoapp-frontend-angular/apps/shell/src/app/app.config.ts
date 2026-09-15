@@ -26,7 +26,19 @@ export const appConfig: ApplicationConfig = {
 
     {
       provide: API_BASE_URL,
-      useValue: 'http://localhost:8080',
+      useFactory: () => {
+        if (typeof window !== 'undefined') {
+          const win = window as unknown as { __MAGIC_MIND_API_URL__?: string };
+          if (win.__MAGIC_MIND_API_URL__ && win.__MAGIC_MIND_API_URL__.trim() !== '') {
+            return win.__MAGIC_MIND_API_URL__.replace(/\/+$/, '');
+          }
+          const stored = localStorage.getItem('API_BASE_URL');
+          if (stored && stored.trim() !== '') {
+            return stored.replace(/\/+$/, '');
+          }
+        }
+        return 'http://localhost:8080';
+      },
     },
 
     provideRouter(appRoutes),
