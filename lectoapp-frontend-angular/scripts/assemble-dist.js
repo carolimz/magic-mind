@@ -48,9 +48,15 @@ const prodManifest = {
   student: '/student/remoteEntry.json',
   teacher: '/teacher/remoteEntry.json'
 };
-const manifestPath = path.join(prodDir, 'federation.manifest.json');
-fs.writeFileSync(manifestPath, JSON.stringify(prodManifest, null, 2), 'utf-8');
-console.log(`✅ Production federation.manifest.json generated at ${manifestPath}`);
+const manifestContent = JSON.stringify(prodManifest, null, 2);
+fs.writeFileSync(path.join(prodDir, 'federation.manifest.json'), manifestContent, 'utf-8');
+for (const remote of remotes) {
+  const remoteDest = path.join(prodDir, remote);
+  if (fs.existsSync(remoteDest)) {
+    fs.writeFileSync(path.join(remoteDest, 'federation.manifest.json'), manifestContent, 'utf-8');
+  }
+}
+console.log('✅ Production federation.manifest.json generated at root and subfolders');
 
 // 5. Inject API_BASE_URL into index.html if available in environment
 const apiUrl = process.env.API_BASE_URL || process.env.BACKEND_URL || '';
