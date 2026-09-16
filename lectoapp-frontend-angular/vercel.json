@@ -1,17 +1,12 @@
 {
-  "version": 2,
-  "cleanUrls": false,
-  "routes": [
+  "rewrites": [
     {
-      "src": "/.*/federation\\.manifest\\.json",
-      "dest": "/federation.manifest.json"
+      "source": "/:path*/federation.manifest.json",
+      "destination": "/federation.manifest.json"
     },
     {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/.*",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
