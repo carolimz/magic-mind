@@ -1,6 +1,8 @@
 {
   "version": 2,
-  "cleanUrls": false,
+  "buildCommand": "npm run build:prod",
+  "outputDirectory": "dist/prod",
+  "installCommand": "npm install",
   "routes": [
     {
       "handle": "filesystem"
