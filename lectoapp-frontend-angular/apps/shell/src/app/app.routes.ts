@@ -26,7 +26,7 @@ export const appRoutes: Routes = [
     canMatch: [
       roleGuard(
         ['ADMIN'],
-        '/login/personal',
+        '/login',
       ),
     ],
     loadComponent: () =>
@@ -42,7 +42,7 @@ export const appRoutes: Routes = [
     canMatch: [
       roleGuard(
         ['DOCENTE'],
-        '/login/personal',
+        '/login',
       ),
     ],
     loadComponent: () =>
@@ -58,7 +58,7 @@ export const appRoutes: Routes = [
     canMatch: [
       roleGuard(
         ['DOCENTE'],
-        '/login/personal',
+        '/login',
       ),
     ],
     loadComponent: () =>

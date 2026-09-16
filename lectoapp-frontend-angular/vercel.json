@@ -3,6 +3,10 @@
   "cleanUrls": false,
   "routes": [
     {
+      "src": "/.*/federation\\.manifest\\.json",
+      "dest": "/federation.manifest.json"
+    },
+    {
       "handle": "filesystem"
     },
     {

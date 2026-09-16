@@ -73,4 +73,12 @@ if (fs.existsSync(vercelJsonSrc)) {
   fs.copyFileSync(vercelJsonSrc, path.join(prodDir, 'vercel.json'));
 }
 
+// 7. Ensure es-module-shims.js is present for tablets and mobile browsers
+const esmsSrc = path.join(rootDir, 'node_modules', 'es-module-shims', 'dist', 'es-module-shims.js');
+const esmsDest = path.join(prodDir, 'es-module-shims.js');
+if (!fs.existsSync(esmsDest) && fs.existsSync(esmsSrc)) {
+  fs.copyFileSync(esmsSrc, esmsDest);
+  console.log('✅ es-module-shims.js copied to dist/prod');
+}
+
 console.log('🎉 Magic Mind Production Bundle assembled successfully in dist/prod!');
