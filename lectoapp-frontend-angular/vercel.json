@@ -3,48 +3,9 @@
   "buildCommand": "npm run build:prod",
   "outputDirectory": "dist/prod",
   "installCommand": "npm install",
-  "headers": [
-    {
-      "source": "/(.*)\\.js",
-      "headers": [
-        { "key": "Content-Type", "value": "application/javascript; charset=utf-8" }
-      ]
-    },
-    {
-      "source": "/(.*)\\.mjs",
-      "headers": [
-        { "key": "Content-Type", "value": "application/javascript; charset=utf-8" }
-      ]
-    },
-    {
-      "source": "/(.*)\\.css",
-      "headers": [
-        { "key": "Content-Type", "value": "text/css; charset=utf-8" }
-      ]
-    },
-    {
-      "source": "/(.*)\\.json",
-      "headers": [
-        { "key": "Content-Type", "value": "application/json; charset=utf-8" }
-      ]
-    }
-  ],
   "routes": [
     {
-      "src": "/[^/]+\\.(js|mjs|css|json|ico|svg|png|woff2?|ttf|eot|map)",
-      "dest": "/$0"
-    },
-    {
-      "src": "/admin/[^/]+\\.(js|mjs|css|json|ico|svg|png|woff2?|ttf|eot|map)",
-      "dest": "/$0"
-    },
-    {
-      "src": "/teacher/[^/]+\\.(js|mjs|css|json|ico|svg|png|woff2?|ttf|eot|map)",
-      "dest": "/$0"
-    },
-    {
-      "src": "/student/[^/]+\\.(js|mjs|css|json|ico|svg|png|woff2?|ttf|eot|map)",
-      "dest": "/$0"
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
