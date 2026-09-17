@@ -109,6 +109,9 @@ export class ActivityPage implements OnInit {
     readonly errorMessage =
         signal<string | null>(null);
 
+    /** Número de intento actual. 1 = primer intento (silencio), 2+ = reintento (audio automático). */
+    readonly attemptCount = signal(1);
+
     readonly currentItem =
         computed<ActivityItem | null>(() => {
             const currentActivity =
@@ -415,6 +418,9 @@ export class ActivityPage implements OnInit {
         this.errorMessage.set(null);
 
         this.startedAt = Date.now();
+
+        // Incrementar intento: en el reintento se activa el audio automático
+        this.attemptCount.update((n) => n + 1);
     }
 
     returnToPath(): void {

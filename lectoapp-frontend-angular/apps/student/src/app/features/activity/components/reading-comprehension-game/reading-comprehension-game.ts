@@ -29,6 +29,12 @@ export class ReadingComprehensionGame implements OnDestroy {
 
   readonly submitting = input(false);
 
+  /**
+   * Si es true (reintento), la lectura se reproduce automáticamente
+   * al aparecer cada pregunta, para ayudar al niño.
+   */
+  readonly autoSpeak = input(false);
+
   readonly answerSelected = output<string>();
 
   readonly continueRequested = output<void>();
@@ -72,8 +78,6 @@ export class ReadingComprehensionGame implements OnDestroy {
   constructor() {
     effect(() => {
       // Cancelar speech anterior cuando cambia el ítem.
-      // El dictador NO habla automáticamente: el niño debe
-      // presionar el botón del altavoz para escuchar la lectura.
       this.item();
 
       if (this.speechTimer) {
@@ -82,6 +86,14 @@ export class ReadingComprehensionGame implements OnDestroy {
 
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
+      }
+
+      // En reintento: leer la lectura automáticamente con un pequeño delay
+      // para que el navegador tenga tiempo de renderizar el texto primero.
+      if (this.autoSpeak()) {
+        this.speechTimer = setTimeout(() => {
+          this.speakReading();
+        }, 600);
       }
     });
   }
@@ -135,4 +147,4 @@ export class ReadingComprehensionGame implements OnDestroy {
       window.speechSynthesis.cancel();
     }
   }
-}
+}

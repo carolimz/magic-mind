@@ -9,17 +9,26 @@
       {{ resourceEmoji() }}
     </div>
 
-    <button
-      type="button"
-      class="sound-button"
-      aria-label="Escuchar la lectura y la pregunta"
-      (click)="speakReading()"
-    >
-      <i
-        class="pi pi-volume-up"
-        aria-hidden="true"
-      ></i>
-    </button>
+    <div class="sound-button-wrapper">
+      <button
+        type="button"
+        class="sound-button"
+        [class.sound-button--auto]="autoSpeak()"
+        [attr.aria-label]="autoSpeak() ? 'Volver a escuchar la lectura' : 'Escuchar la lectura y la pregunta'"
+        (click)="speakReading()"
+      >
+        <i
+          class="pi pi-volume-up"
+          aria-hidden="true"
+        ></i>
+        @if (autoSpeak()) {
+          <span class="sound-badge" aria-hidden="true"></span>
+        }
+      </button>
+      @if (autoSpeak()) {
+        <p class="sound-hint">🔊 Modo audio activado</p>
+      }
+    </div>
   </div>
 
   <section

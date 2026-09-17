@@ -42,8 +42,17 @@
     picture-arrival 600ms ease-out;
 }
 
+.sound-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  position: relative;
+}
+
 .sound-button {
   display: inline-flex;
+  position: relative;
   width: 4.8rem;
   height: 4.8rem;
   cursor: pointer;
@@ -71,6 +80,39 @@
     outline: 0.3rem solid #2563eb;
     outline-offset: 0.2rem;
   }
+
+  // Cuando el audio se reproduce automáticamente
+  &--auto {
+    background: #f97316;
+    color: #fff;
+    box-shadow:
+      0 0 0 0.4rem rgb(249 115 22 / 25%),
+      0 0.8rem 1.5rem rgb(249 115 22 / 35%);
+    animation: pulse-ring 1.6s ease-out infinite;
+  }
+}
+
+// Punto parpadeante encima del botón (indicador de audio activo)
+.sound-badge {
+  position: absolute;
+  top: -0.3rem;
+  right: -0.3rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  background: #22c55e;
+  border: 0.2rem solid #fff;
+  animation: blink 1s step-start infinite;
+}
+
+// Texto de ayuda bajo el botón en modo audio
+.sound-hint {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #ea580c;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
 }
 
 .reading-card {
@@ -224,6 +266,17 @@
   }
 }
 
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgb(249 115 22 / 50%), 0 0.8rem 1.5rem rgb(249 115 22 / 35%); }
+  70% { box-shadow: 0 0 0 0.8rem rgb(249 115 22 / 0%), 0 0.8rem 1.5rem rgb(249 115 22 / 35%); }
+  100% { box-shadow: 0 0 0 0 rgb(249 115 22 / 0%), 0 0.8rem 1.5rem rgb(249 115 22 / 35%); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
 @media (max-width: 640px) {
   .reading-header {
     gap: 1rem;
@@ -249,12 +302,18 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reading-picture {
+  .reading-picture,
+  .sound-button--auto {
     animation: none;
+  }
+
+  .sound-badge {
+    animation: none;
+    opacity: 1;
   }
 
   .sound-button,
   .answer-option {
     transition: none;
   }
-}
+}

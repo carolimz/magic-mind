@@ -119,7 +119,7 @@
     ) {
     <app-reading-comprehension-game [item]="item" [selectedAnswer]="
                 selectedAnswer(item.id)
-              " [lastItem]="isLastItem()" [submitting]="submitting()" (answerSelected)="
+              " [lastItem]="isLastItem()" [submitting]="submitting()" [autoSpeak]="attemptCount() > 1" (answerSelected)="
                 selectAnswer(
                   item.id,
                   $event
