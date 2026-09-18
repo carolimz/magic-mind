@@ -8,7 +8,7 @@ import {
   provideZoneChangeDetection,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { API_BASE_URL } from '@lectoapp-frontend-angular/api';
+import { API_BASE_URL, serverErrorInterceptor } from '@lectoapp-frontend-angular/api';
 import { authTokenInterceptor } from '@lectoapp-frontend-angular/auth';
 import Aura from '@openng/optimus-ui-themes/aura';
 import { provideOptimus } from '@openng/optimus-ui/config';
@@ -21,7 +21,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
 
     provideHttpClient(
-      withInterceptors([authTokenInterceptor]),
+      withInterceptors([authTokenInterceptor, serverErrorInterceptor]),
     ),
 
     {
