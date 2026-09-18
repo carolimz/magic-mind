@@ -176,3 +176,47 @@
     flex-direction: column;
   }
 }
+
+.user-card__actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.user-action {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 150ms ease;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.user-action--primary {
+  background: #f1f5f9;
+  color: #334155;
+
+  &:hover:not(:disabled) {
+    background: #e2e8f0;
+  }
+}
+
+.user-action--danger {
+  background: #fef2f2;
+  color: #b91c1c;
+
+  &:hover:not(:disabled) {
+    background: #fee2e2;
+  }
+}

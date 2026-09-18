@@ -92,4 +92,29 @@
       Protegida
     </span>
   </div>
+
+  <div class="user-card__actions">
+    <button
+      type="button"
+      class="user-action user-action--primary"
+      (click)="edit.emit()"
+    >
+      <i class="pi pi-pencil" aria-hidden="true"></i>
+      Editar
+    </button>
+
+    <button
+      type="button"
+      class="user-action user-action--danger"
+      [disabled]="deleting()"
+      (click)="delete.emit()"
+    >
+      @if (deleting()) {
+        <i class="pi pi-spin pi-spinner" aria-hidden="true"></i>
+      } @else {
+        <i class="pi pi-trash" aria-hidden="true"></i>
+      }
+      Eliminar
+    </button>
+  </div>
 </article>

@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   input,
+  OnInit,
   output,
 } from '@angular/core';
 import {
@@ -12,6 +13,7 @@ import {
 } from '@angular/forms';
 import type {
   CreateStudentRequest,
+  StudentResponse,
 } from '@lectoapp-frontend-angular/models';
 
 interface StudentForm {
@@ -29,8 +31,9 @@ interface StudentForm {
   styleUrl: './student-form-dialog.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StudentFormDialog {
+export class StudentFormDialog implements OnInit {
   readonly saving = input(false);
+  readonly initialStudent = input<StudentResponse | null>(null);
 
   readonly submitted =
     output<CreateStudentRequest>();
@@ -62,6 +65,17 @@ export class StudentFormDialog {
         ],
       }),
     });
+
+  ngOnInit(): void {
+    const student = this.initialStudent();
+    if (student) {
+      this.studentForm.patchValue({
+        nombre: student.nombre,
+        apellido: student.apellido,
+        fechaNacimiento: student.fechaNacimiento,
+      });
+    }
+  }
 
   submit(): void {
     this.studentForm.markAllAsTouched();

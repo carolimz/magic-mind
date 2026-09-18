@@ -34,16 +34,15 @@
     </div>
 
     <p class="student-dialog__eyebrow">
-      Nuevo registro
+      {{ initialStudent() ? 'Editar registro' : 'Nuevo registro' }}
     </p>
 
     <h2 id="student-dialog-title">
-      Crear estudiante
+      {{ initialStudent() ? 'Modificar estudiante' : 'Crear estudiante' }}
     </h2>
 
     <p class="student-dialog__description">
-      Al guardar se generará automáticamente
-      su código de acceso.
+      {{ initialStudent() ? 'Actualiza los datos del estudiante.' : 'Al guardar se generará automáticamente su código de acceso.' }}
     </p>
 
     <form
@@ -149,7 +148,7 @@
               aria-hidden="true"
             ></i>
 
-            Crear estudiante
+            {{ initialStudent() ? 'Guardar cambios' : 'Crear estudiante' }}
           }
         </button>
       </div>

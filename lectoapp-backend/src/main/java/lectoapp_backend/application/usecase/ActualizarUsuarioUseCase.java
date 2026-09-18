@@ -2,7 +2,7 @@ package lectoapp_backend.application.usecase;
 
 import org.springframework.stereotype.Service;
 
-import lectoapp_backend.application.dto.request.UsuarioRequest;
+import lectoapp_backend.application.dto.request.ActualizarUsuarioRequest;
 import lectoapp_backend.application.dto.response.UsuarioResponse;
 import lectoapp_backend.application.mapper.UsuarioResponseMapper;
 import lectoapp_backend.domain.model.Usuario;
@@ -17,7 +17,7 @@ public class ActualizarUsuarioUseCase {
     private final UsuarioRepository usuarioRepository;
     private final UsuarioResponseMapper responseMapper;
 
-    public UsuarioResponse ejecutar(Long id, UsuarioRequest request){
+    public UsuarioResponse ejecutar(Long id, ActualizarUsuarioRequest request){
 
         Usuario usuario = usuarioRepository.buscarPorId(id)
                 .orElseThrow(() ->

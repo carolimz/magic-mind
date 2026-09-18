@@ -4,7 +4,8 @@ import {
   Injectable,
 } from '@angular/core';
 import type {
-  UserRequest,
+  CreateUserRequest,
+  UpdateUserRequest,
   UserResponse,
 } from '@lectoapp-frontend-angular/models';
 import type {
@@ -40,7 +41,7 @@ export class UserApiService {
   }
 
   createUser(
-    request: UserRequest,
+    request: CreateUserRequest,
   ): Observable<UserResponse> {
     return this.http.post<UserResponse>(
       `${this.apiBaseUrl}/api/v1/usuarios`,
@@ -50,7 +51,7 @@ export class UserApiService {
 
   updateUser(
     userId: number,
-    request: UserRequest,
+    request: UpdateUserRequest,
   ): Observable<UserResponse> {
     return this.http.put<UserResponse>(
       `${this.apiBaseUrl}/api/v1/usuarios/${userId}`,

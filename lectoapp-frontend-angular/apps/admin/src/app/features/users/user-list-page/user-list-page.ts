@@ -15,7 +15,8 @@ import {
   AuthSessionService,
 } from '@lectoapp-frontend-angular/auth';
 import type {
-  UserRequest,
+  CreateUserRequest,
+  UpdateUserRequest,
   UserResponse,
 } from '@lectoapp-frontend-angular/models';
 import { ButtonModule } from '@openng/optimus-ui/button';
@@ -55,6 +56,12 @@ export class UserListPage implements OnInit {
   readonly loading = signal(true);
   readonly saving = signal(false);
   readonly formVisible = signal(false);
+
+  readonly editingUser =
+    signal<UserResponse | null>(null);
+
+  readonly deletingId =
+    signal<number | null>(null);
 
   readonly errorMessage =
     signal<string | null>(null);
@@ -114,17 +121,26 @@ export class UserListPage implements OnInit {
   showCreateForm(): void {
     this.errorMessage.set(null);
     this.successMessage.set(null);
+    this.editingUser.set(null);
     this.formVisible.set(true);
   }
 
-  hideCreateForm(): void {
+  showEditForm(user: UserResponse): void {
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
+    this.editingUser.set(user);
+    this.formVisible.set(true);
+  }
+
+  hideForm(): void {
     if (!this.saving()) {
       this.formVisible.set(false);
+      this.editingUser.set(null);
     }
   }
 
-  createUser(
-    request: UserRequest,
+  saveUser(
+    request: CreateUserRequest | UpdateUserRequest,
   ): void {
     if (this.saving()) {
       return;
@@ -134,8 +150,12 @@ export class UserListPage implements OnInit {
     this.errorMessage.set(null);
     this.successMessage.set(null);
 
-    this.userApi
-      .createUser(request)
+    const editing = this.editingUser();
+    const saveRequest = editing
+      ? this.userApi.updateUser(editing.id, request as UpdateUserRequest)
+      : this.userApi.createUser(request as CreateUserRequest);
+
+    saveRequest
       .pipe(
         finalize(() =>
           this.saving.set(false),
@@ -143,20 +163,62 @@ export class UserListPage implements OnInit {
       )
       .subscribe({
         next: (user) => {
-          this.users.update(
-            (users) => [
-              user,
-              ...users,
-            ],
-          );
+          this.users.update((users) => {
+            if (editing) {
+              return users.map((u) => (u.id === user.id ? user : u));
+            }
+            return [user, ...users];
+          });
 
           this.formVisible.set(false);
+          this.editingUser.set(null);
 
+          const action = editing ? 'actualizada' : 'creada';
           this.successMessage.set(
-            `La cuenta de ${user.nombre} ${user.apellido} fue creada correctamente.`,
+            `La cuenta de ${user.nombre} ${user.apellido} fue ${action} correctamente.`,
           );
         },
 
+        error: (error: unknown) => {
+          this.handleError(error);
+        },
+      });
+  }
+
+  deleteUser(user: UserResponse): void {
+    if (this.deletingId() !== null) {
+      return;
+    }
+
+    const confirmed = window.confirm(
+      `¿Deseas eliminar permanentemente la cuenta de ${user.nombre} ${user.apellido}?`,
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    this.deletingId.set(user.id);
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
+
+    this.userApi
+      .deleteUser(user.id)
+      .pipe(
+        finalize(() =>
+          this.deletingId.set(null),
+        ),
+      )
+      .subscribe({
+        next: () => {
+          this.users.update((users) =>
+            users.filter((u) => u.id !== user.id),
+          );
+
+          this.successMessage.set(
+            `La cuenta de ${user.nombre} fue eliminada correctamente.`,
+          );
+        },
         error: (error: unknown) => {
           this.handleError(error);
         },

@@ -189,6 +189,9 @@
             ) {
               <app-user-card
                 [user]="user"
+                [deleting]="deletingId() === user.id"
+                (edit)="showEditForm(user)"
+                (delete)="deleteUser(user)"
               />
             }
           </div>
@@ -226,6 +229,9 @@
             ) {
               <app-user-card
                 [user]="user"
+                [deleting]="deletingId() === user.id"
+                (edit)="showEditForm(user)"
+                (delete)="deleteUser(user)"
               />
             }
           </div>
@@ -236,9 +242,10 @@
 
   @if (formVisible()) {
     <app-user-form-dialog
+      [initialUser]="editingUser()"
       [saving]="saving()"
-      (submitted)="createUser($event)"
-      (closed)="hideCreateForm()"
+      (submitted)="saveUser($event)"
+      (closed)="hideForm()"
     />
   }
 </section>

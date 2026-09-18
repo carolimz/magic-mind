@@ -4,6 +4,7 @@ package lectoapp_backend.infraestructure.controller;
 import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lectoapp_backend.application.dto.request.ActualizarUsuarioRequest;
 import lectoapp_backend.application.dto.request.UsuarioRequest;
 import lectoapp_backend.application.dto.response.UsuarioResponse;
 import lectoapp_backend.application.usecase.ActualizarUsuarioUseCase;
@@ -66,7 +67,7 @@ public class UsuarioController {
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioResponse> actualizarUsuario(
             @PathVariable Long id,
-            @Valid @RequestBody UsuarioRequest request){
+            @Valid @RequestBody ActualizarUsuarioRequest request){
 
         UsuarioResponse response = actualizarUsuarioUseCase.ejecutar(id, request);
 

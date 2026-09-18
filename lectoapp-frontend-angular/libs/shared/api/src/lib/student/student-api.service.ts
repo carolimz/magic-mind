@@ -4,6 +4,7 @@ import type {
   ActivityResultResponse,
   CreateStudentRequest,
   ProgressSummaryResponse,
+  ResumenEstadisticoEstudianteResponse,
   StudentResponse,
   UpdateStudentRequest,
 } from '@lectoapp-frontend-angular/models';
@@ -72,6 +73,12 @@ export class StudentApiService {
   ): Observable<ProgressSummaryResponse> {
     return this.http.get<ProgressSummaryResponse>(
       `${this.apiBaseUrl}/api/docente/estudiantes/${studentId}/resumen`,
+    );
+  }
+
+  getTeacherGlobalStatistics(): Observable<ResumenEstadisticoEstudianteResponse[]> {
+    return this.http.get<ResumenEstadisticoEstudianteResponse[]>(
+      `${this.apiBaseUrl}/api/estadisticas/docente/estudiantes`,
     );
   }
 }

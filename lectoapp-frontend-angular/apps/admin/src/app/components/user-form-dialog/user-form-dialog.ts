@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   input,
+  OnInit,
   output,
 } from '@angular/core';
 import {
@@ -11,7 +12,9 @@ import {
   Validators,
 } from '@angular/forms';
 import type {
-  UserRequest,
+  CreateUserRequest,
+  UpdateUserRequest,
+  UserResponse,
   UserRole,
 } from '@lectoapp-frontend-angular/models';
 
@@ -33,11 +36,12 @@ interface UserForm {
   changeDetection:
     ChangeDetectionStrategy.OnPush,
 })
-export class UserFormDialog {
+export class UserFormDialog implements OnInit {
   readonly saving = input(false);
+  readonly initialUser = input<UserResponse | null>(null);
 
   readonly submitted =
-    output<UserRequest>();
+    output<CreateUserRequest | UpdateUserRequest>();
 
   readonly closed = output<void>();
 
@@ -87,6 +91,21 @@ export class UserFormDialog {
       ),
     });
 
+  ngOnInit(): void {
+    const user = this.initialUser();
+    if (user) {
+      this.userForm.patchValue({
+        nombre: user.nombre,
+        apellido: user.apellido,
+        correo: user.correo,
+        rol: user.rol,
+      });
+
+      this.userForm.controls.password.clearValidators();
+      this.userForm.controls.password.updateValueAndValidity();
+    }
+  }
+
   submit(): void {
     this.userForm.markAllAsTouched();
 
@@ -97,27 +116,21 @@ export class UserFormDialog {
       return;
     }
 
-    this.submitted.emit({
-      nombre:
-        this.userForm.controls
-          .nombre.value.trim(),
+    const payload = {
+      nombre: this.userForm.controls.nombre.value.trim(),
+      apellido: this.userForm.controls.apellido.value.trim(),
+      correo: this.userForm.controls.correo.value.trim(),
+      rol: this.userForm.controls.rol.value,
+    };
 
-      apellido:
-        this.userForm.controls
-          .apellido.value.trim(),
-
-      correo:
-        this.userForm.controls
-          .correo.value.trim(),
-
-      password:
-        this.userForm.controls
-          .password.value,
-
-      rol:
-        this.userForm.controls
-          .rol.value,
-    });
+    if (this.initialUser()) {
+      this.submitted.emit(payload as UpdateUserRequest);
+    } else {
+      this.submitted.emit({
+        ...payload,
+        password: this.userForm.controls.password.value,
+      } as CreateUserRequest);
+    }
   }
 
   close(): void {

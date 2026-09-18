@@ -34,15 +34,15 @@
     </div>
 
     <p class="user-dialog__eyebrow">
-      Nueva cuenta
+      {{ initialUser() ? 'Editar cuenta' : 'Nueva cuenta' }}
     </p>
 
     <h2 id="user-dialog-title">
-      Crear usuario
+      {{ initialUser() ? 'Modificar usuario' : 'Crear usuario' }}
     </h2>
 
     <p class="user-dialog__description">
-      Registra una cuenta para un docente o administrador.
+      {{ initialUser() ? 'Actualiza los datos del usuario.' : 'Registra una cuenta para un docente o administrador.' }}
     </p>
 
     <form
@@ -123,28 +123,30 @@
         }
       </div>
 
-      <div class="form-field">
-        <label for="user-password">
-          Contraseña temporal
-        </label>
+      @if (!initialUser()) {
+        <div class="form-field">
+          <label for="user-password">
+            Contraseña temporal
+          </label>
 
-        <input
-          id="user-password"
-          type="password"
-          formControlName="password"
-          autocomplete="new-password"
-          placeholder="Mínimo 8 caracteres"
-        />
+          <input
+            id="user-password"
+            type="password"
+            formControlName="password"
+            autocomplete="new-password"
+            placeholder="Mínimo 8 caracteres"
+          />
 
-        @if (
-          userForm.controls.password.touched &&
-          userForm.controls.password.invalid
-        ) {
-          <small>
-            La contraseña debe tener al menos 8 caracteres.
-          </small>
-        }
-      </div>
+          @if (
+            userForm.controls.password.touched &&
+            userForm.controls.password.invalid
+          ) {
+            <small>
+              La contraseña debe tener al menos 8 caracteres.
+            </small>
+          }
+        </div>
+      }
 
       <div class="form-field">
         <label for="user-role">
@@ -193,7 +195,7 @@
               aria-hidden="true"
             ></i>
 
-            Crear cuenta
+            {{ initialUser() ? 'Guardar cambios' : 'Crear cuenta' }}
           }
         </button>
       </div>

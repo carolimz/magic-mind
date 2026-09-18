@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   input,
+  output,
 } from '@angular/core';
 import type {
   UserResponse,
@@ -17,6 +18,11 @@ import type {
 export class UserCard {
   readonly user =
     input.required<UserResponse>();
+
+  readonly deleting = input(false);
+
+  readonly edit = output<void>();
+  readonly delete = output<void>();
 
   readonly initials = computed(() => {
     const currentUser = this.user();

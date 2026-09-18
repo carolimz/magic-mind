@@ -17,6 +17,7 @@ import {
 } from '@lectoapp-frontend-angular/auth';
 import type {
   CreateStudentRequest,
+  ResumenEstadisticoEstudianteResponse,
   StudentResponse,
 } from '@lectoapp-frontend-angular/models';
 import { ButtonModule } from '@openng/optimus-ui/button';
@@ -50,11 +51,17 @@ export class StudentListPage implements OnInit {
   readonly students =
     signal<StudentResponse[]>([]);
 
+  readonly globalStats =
+    signal<ResumenEstadisticoEstudianteResponse[]>([]);
+
   readonly loading = signal(true);
   readonly saving = signal(false);
 
   readonly deactivatingId =
     signal<number | null>(null);
+
+  readonly editingStudent =
+    signal<StudentResponse | null>(null);
 
   readonly formVisible = signal(false);
 
@@ -87,6 +94,38 @@ export class StudentListPage implements OnInit {
       ),
   );
 
+  readonly stageDistribution = computed(() => {
+    const stats = this.globalStats();
+    let logografica = 0;
+    let alfabetica = 0;
+    let ortografica = 0;
+    
+    for (const stat of stats) {
+      const etapa = (stat.nombreEtapa || '').toLowerCase();
+      if (etapa.includes('logo')) logografica++;
+      else if (etapa.includes('alfa')) alfabetica++;
+      else if (etapa.includes('orto')) ortografica++;
+    }
+
+    const total = stats.length || 1;
+    return {
+      logografica,
+      logograficaPct: Math.round((logografica / total) * 100),
+      alfabetica,
+      alfabeticaPct: Math.round((alfabetica / total) * 100),
+      ortografica,
+      ortograficaPct: Math.round((ortografica / total) * 100),
+    };
+  });
+
+  readonly classAverageSuccess = computed(() => {
+    const stats = this.globalStats();
+    if (stats.length === 0) return 0;
+    
+    const sum = stats.reduce((acc, stat) => acc + (stat.porcentajeExito || 0), 0);
+    return Math.round(sum / stats.length);
+  });
+
   ngOnInit(): void {
     this.loadStudents();
   }
@@ -97,16 +136,23 @@ export class StudentListPage implements OnInit {
 
     this.studentApi
       .getStudents()
-      .pipe(
-        finalize(() =>
-          this.loading.set(false),
-        ),
-      )
       .subscribe({
         next: (students) => {
           this.students.set(students);
+          
+          this.studentApi.getTeacherGlobalStatistics()
+            .pipe(
+              finalize(() => this.loading.set(false))
+            )
+            .subscribe({
+              next: (stats) => this.globalStats.set(stats),
+              error: (err) => {
+                console.error('Error loading stats', err);
+              }
+            });
         },
         error: (error: unknown) => {
+          this.loading.set(false);
           this.handleError(error);
         },
       });
@@ -115,16 +161,25 @@ export class StudentListPage implements OnInit {
   showCreateForm(): void {
     this.errorMessage.set(null);
     this.successMessage.set(null);
+    this.editingStudent.set(null);
     this.formVisible.set(true);
   }
 
-  hideCreateForm(): void {
+  showEditForm(student: StudentResponse): void {
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
+    this.editingStudent.set(student);
+    this.formVisible.set(true);
+  }
+
+  hideForm(): void {
     if (!this.saving()) {
       this.formVisible.set(false);
+      this.editingStudent.set(null);
     }
   }
 
-  createStudent(
+  saveStudent(
     request: CreateStudentRequest,
   ): void {
     if (this.saving()) {
@@ -135,8 +190,12 @@ export class StudentListPage implements OnInit {
     this.errorMessage.set(null);
     this.successMessage.set(null);
 
-    this.studentApi
-      .createStudent(request)
+    const editing = this.editingStudent();
+    const saveRequest = editing
+      ? this.studentApi.updateStudent(editing.id, request)
+      : this.studentApi.createStudent(request);
+
+    saveRequest
       .pipe(
         finalize(() =>
           this.saving.set(false),
@@ -144,17 +203,19 @@ export class StudentListPage implements OnInit {
       )
       .subscribe({
         next: (student) => {
-          this.students.update(
-            (students) => [
-              student,
-              ...students,
-            ],
-          );
+          this.students.update((students) => {
+            if (editing) {
+              return students.map((s) => (s.id === student.id ? student : s));
+            }
+            return [student, ...students];
+          });
 
           this.formVisible.set(false);
+          this.editingStudent.set(null);
 
+          const action = editing ? 'actualizado' : 'creado';
           this.successMessage.set(
-            `Estudiante creado. Su código es ${student.codigoAcceso}.`,
+            `Estudiante ${action}. Su código es ${student.codigoAcceso}.`,
           );
         },
         error: (error: unknown) => {

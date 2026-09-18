@@ -104,6 +104,59 @@
     </div>
   }
 
+  @if (!loading()) {
+    <section class="global-dashboard">
+      <div class="global-dashboard__header">
+        <h2>Resumen Global de la Clase</h2>
+        <p>Visión general del rendimiento de tus estudiantes activos.</p>
+      </div>
+      
+      <div class="global-dashboard__content">
+        <article class="stat-card stat-card--success-rate">
+          <h3>Promedio de Éxito</h3>
+          <div class="stat-card__main-value">
+            {{ classAverageSuccess() }}%
+          </div>
+          <p>Porcentaje global de aciertos en actividades.</p>
+        </article>
+
+        <article class="stat-card stat-card--stages">
+          <h3>Distribución por Etapas</h3>
+          
+          <div class="stage-bar-container">
+            <div class="stage-bar-info">
+              <span>Etapa Logográfica ({{ stageDistribution().logografica }})</span>
+              <strong>{{ stageDistribution().logograficaPct }}%</strong>
+            </div>
+            <div class="css-bar-chart">
+              <div class="css-bar-fill logografica-fill" [style.width.%]="stageDistribution().logograficaPct"></div>
+            </div>
+          </div>
+
+          <div class="stage-bar-container">
+            <div class="stage-bar-info">
+              <span>Etapa Alfabética ({{ stageDistribution().alfabetica }})</span>
+              <strong>{{ stageDistribution().alfabeticaPct }}%</strong>
+            </div>
+            <div class="css-bar-chart">
+              <div class="css-bar-fill alfabetica-fill" [style.width.%]="stageDistribution().alfabeticaPct"></div>
+            </div>
+          </div>
+
+          <div class="stage-bar-container">
+            <div class="stage-bar-info">
+              <span>Etapa Ortográfica ({{ stageDistribution().ortografica }})</span>
+              <strong>{{ stageDistribution().ortograficaPct }}%</strong>
+            </div>
+            <div class="css-bar-chart">
+              <div class="css-bar-fill ortografica-fill" [style.width.%]="stageDistribution().ortograficaPct"></div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  }
+
   <section class="students-panel">
     <div class="students-panel__header">
       <div>
@@ -246,7 +299,20 @@
                   aria-hidden="true"
                 ></i>
 
-                Ver progreso
+                Progreso
+              </button>
+
+              <button
+                type="button"
+                class="student-action student-action--secondary"
+                (click)="showEditForm(student)"
+              >
+                <i
+                  class="pi pi-pencil"
+                  aria-hidden="true"
+                ></i>
+
+                Editar
               </button>
 
               <button
@@ -284,9 +350,10 @@
 
   @if (formVisible()) {
     <app-student-form-dialog
+      [initialStudent]="editingStudent()"
       [saving]="saving()"
-      (submitted)="createStudent($event)"
-      (closed)="hideCreateForm()"
+      (submitted)="saveStudent($event)"
+      (closed)="hideForm()"
     />
   }
 </section>

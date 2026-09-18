@@ -29,3 +29,15 @@ export interface StudentCodeValidationResponse {
   nombre: string | null;
   apellido: string | null;
 }
+
+export interface ResumenEstadisticoEstudianteResponse {
+  estudianteId: number;
+  nombreCompleto: string;
+  etapaId: number;
+  nombreEtapa: string;
+  actividadesRealizadas: number;
+  promedioGeneral: number;
+  porcentajeExito: number;
+  tiempoPromedioSegundos: number;
+  ultimaActividad: string | null;
+}
