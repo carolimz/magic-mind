@@ -4,7 +4,7 @@ import {
   computed,
   inject,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import {
   AuthSessionService,
 } from '@lectoapp-frontend-angular/auth';
@@ -17,6 +17,7 @@ import {
   selector: 'app-root',
   imports: [
     UserListPage,
+    RouterLink,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
