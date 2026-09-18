@@ -40,6 +40,13 @@ for (const remote of remotes) {
   const remoteDest = path.join(prodDir, remote);
   console.log(`📦 Copying Remote [${remote}] from ${remoteBrowser} to ${remoteDest}...`);
   copyDirectory(remoteBrowser, remoteDest);
+  
+  // Delete the remote's index.html to ensure SPA fallback hits the Shell's index.html
+  const remoteIndex = path.join(remoteDest, 'index.html');
+  if (fs.existsSync(remoteIndex)) {
+    fs.unlinkSync(remoteIndex);
+    console.log(`🗑️ Deleted ${remote}/index.html to prevent routing conflicts.`);
+  }
 }
 
 // 4. Generate Production federation.manifest.json with relative paths
