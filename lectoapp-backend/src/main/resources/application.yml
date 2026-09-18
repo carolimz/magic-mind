@@ -42,7 +42,7 @@ spring:
     placeholder-replacement: false
 
 cors:
-  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200,http://localhost:4201,http://localhost:4202,http://localhost:4203}
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200,http://localhost:4201,http://localhost:4202,http://localhost:4203,https://lectoapp-frontend-angular-u7dd.vercel.app}
 
 jwt:
   secret: ${JWT_SECRET:MagicMindDefaultProductionSecretKey2026TatianaPlatform!}

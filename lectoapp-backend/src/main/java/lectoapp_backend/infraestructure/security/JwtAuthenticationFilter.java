@@ -106,8 +106,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                             .getContext()
                             .setAuthentication(authentication);
                 }
-            } catch (JwtException | IllegalArgumentException ex) {
-                // Token inválido o mal formado. No autenticamos.
+            } catch (JwtException | IllegalArgumentException | RuntimeException ex) {
+                // Token inválido, mal formado, o entidad no encontrada en BD. No autenticamos.
             }
         }
 
