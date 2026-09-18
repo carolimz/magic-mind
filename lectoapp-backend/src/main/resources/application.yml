@@ -1,14 +1,31 @@
 server:
   port: ${PORT:${SERVER_PORT:8080}}
+  # Limitar hilos de Tomcat para reducir consumo de RAM en Railway
+  tomcat:
+    threads:
+      max: 20       # Por defecto son 200; con pocos usuarios concurrentes, 20 es suficiente
+      min-spare: 4  # Hilos mínimos en espera (ahorra memoria en periodos de inactividad)
+    connection-timeout: 20000
 
 spring:
   config:
     import: optional:file:.env[.properties]
 
+  # Carga lazy: los beans se inicializan solo cuando se usan por primera vez.
+  # Reduce el uso de RAM al arrancar (~25-30% menos en startup).
+  main:
+    lazy-initialization: true
+
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/lectoapp}
     username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD:}
+    hikari:
+      # Pool de conexiones reducido para Railway (por defecto HikariCP usa 10)
+      maximum-pool-size: 5
+      minimum-idle: 2
+      idle-timeout: 300000       # Cierra conexiones inactivas después de 5 min
+      connection-timeout: 20000
 
   jpa:
     open-in-view: false
