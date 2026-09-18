@@ -9,7 +9,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -106,7 +105,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                             .getContext()
                             .setAuthentication(authentication);
                 }
-            } catch (JwtException | IllegalArgumentException | RuntimeException ex) {
+            } catch (RuntimeException ex) {
                 // Token inválido, mal formado, o entidad no encontrada en BD. No autenticamos.
             }
         }

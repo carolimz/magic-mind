@@ -112,7 +112,7 @@ public class ResultadoActividadController {
         description = "Obtiene el detalle de un resultado específico del estudiante autenticado."
     )
     @PreAuthorize("hasRole('ESTUDIANTE')")
-    @GetMapping("/estudiante/resultados/{id}")
+    @GetMapping("/estudiante/resultados/{id:\\d+}")
     public ResponseEntity<ResultadoActividadResponse> detalle(
             Authentication authentication,
             @PathVariable Long id) {

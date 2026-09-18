@@ -27,10 +27,16 @@ public class DomainConfig {
     /**
      * Registra RestTemplate como Bean para ser inyectado en los servicios
      * de infraestructura que realizan peticiones HTTP (ej. Gemini).
+     * Se configura con timeouts para evitar bloqueos si la API externa no responde.
      */
     @Bean
     public RestTemplate restTemplate() {
-        return new RestTemplate();
+        org.springframework.http.client.SimpleClientHttpRequestFactory factory = 
+                new org.springframework.http.client.SimpleClientHttpRequestFactory();
+        factory.setConnectTimeout(10000); // 10 segundos para conectar
+        factory.setReadTimeout(30000);    // 30 segundos para leer la respuesta
+        
+        return new RestTemplate(factory);
     }
 
 }
