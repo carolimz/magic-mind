@@ -51,7 +51,7 @@
     </div>
   </header>
 
-  @if (isStudentProgress) {
+  @if (isStudentProgress()) {
     <app-student-progress-page />
   } @else {
     <app-student-list-page />

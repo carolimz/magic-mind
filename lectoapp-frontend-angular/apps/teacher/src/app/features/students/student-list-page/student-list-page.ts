@@ -101,10 +101,20 @@ export class StudentListPage implements OnInit {
     let ortografica = 0;
     
     for (const stat of stats) {
-      const etapa = (stat.nombreEtapa || '').toLowerCase();
-      if (etapa.includes('logo')) logografica++;
-      else if (etapa.includes('alfa')) alfabetica++;
-      else if (etapa.includes('orto')) ortografica++;
+      const etapaStr = stat.nombreEtapa || '';
+      const match = etapaStr.match(/Etapa\s+(\d+)/i);
+      const stageNum = match ? parseInt(match[1], 10) : 0;
+
+      if (stageNum >= 1 && stageNum <= 2) {
+        logografica++;
+      } else if (stageNum >= 3 && stageNum <= 5) {
+        alfabetica++;
+      } else if (stageNum >= 6) {
+        ortografica++;
+      } else {
+        // Si no tiene etapa definida (ej. nuevo sin jugar), lo contamos en la inicial
+        logografica++;
+      }
     }
 
     const total = stats.length || 1;

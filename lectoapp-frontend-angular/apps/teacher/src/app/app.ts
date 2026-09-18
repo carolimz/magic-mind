@@ -12,6 +12,8 @@ import {
 import {
   AuthSessionService,
 } from '@lectoapp-frontend-angular/auth';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 
 import {
   StudentListPage,
@@ -47,8 +49,15 @@ export class App {
       'Docente',
   );
 
-  readonly isStudentProgress =
-    this.hasStudentId();
+  readonly isStudentProgress = toSignal(
+    this.route.paramMap.pipe(
+      map(params => {
+        const studentId = Number(params.get('studentId'));
+        return Number.isInteger(studentId) && studentId > 0;
+      })
+    ),
+    { initialValue: this.hasStudentId() }
+  );
 
   logout(): void {
     this.sessionService.clearSession();
