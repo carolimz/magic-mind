@@ -129,6 +129,12 @@ public class ResultadoActividadCalculator {
 
         }
 
+        // Ítem de Verdadero o Falso
+        if (item.getEsVerdadero() != null) {
+            String valorEsperado = item.getEsVerdadero() ? "true" : "false";
+            return valorEsperado.equalsIgnoreCase(respuestaEstudiante);
+        }
+
         return false;
 
     }

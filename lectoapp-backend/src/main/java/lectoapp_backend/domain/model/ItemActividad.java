@@ -81,4 +81,15 @@ public class ItemActividad {
      * Solo aplica en actividades de tipo EMPAREJAR.
      */
     private String tipo;
+
+    /**
+     * Afirmación o texto para validar en juegos de VERDADERO_FALSO.
+     */
+    private String afirmacion;
+
+    /**
+     * Define si la afirmación es verdadera (true) o falsa (false).
+     * Solo aplica en actividades de VERDADERO_FALSO.
+     */
+    private Boolean esVerdadero;
 }

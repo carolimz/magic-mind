@@ -15,6 +15,8 @@ public enum TipoActividad {
 
     VERDADERO_FALSO,
 
-    ORDENAR_SECUENCIA
+    ORDENAR_SECUENCIA,
+
+    ADIVINA_LA_SOMBRA
 
 }
