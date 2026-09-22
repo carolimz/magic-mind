@@ -1,0 +1,66 @@
+<div class="flex flex-col items-center justify-center p-4">
+  @if (item().recurso) {
+    <div
+      class="mb-8 flex h-56 w-56 items-center justify-center rounded-[3rem] bg-slate-50 drop-shadow-2xl transition-all duration-700"
+      [class.shadow-reveal]="showColor()"
+    >
+      @if (item().recurso.length <= 4) {
+        <span class="text-9xl transition-all duration-700" [class.shadow-filter]="!showColor()">
+          {{ item().recurso }}
+        </span>
+      } @else {
+        <img
+          [src]="item().recurso"
+          alt="Sombra misteriosa"
+          class="h-48 w-48 object-contain transition-all duration-700"
+          [class.shadow-filter]="!showColor()"
+          aria-hidden="true"
+        />
+      }
+    </div>
+  }
+
+  <p class="mb-8 text-center text-3xl font-black text-slate-700 sm:text-4xl">
+    ¿Qué es esta sombra?
+  </p>
+
+  <div class="grid w-full max-w-2xl grid-cols-1 gap-4 sm:grid-cols-3">
+    @for (opcion of item().opciones; track opcion) {
+      <button
+        type="button"
+        class="flex flex-col items-center justify-center gap-2 rounded-3xl border-b-8 p-4 transition-all active:translate-y-2 active:border-b-0"
+        [class]="
+          selectedAnswer() === opcion
+            ? opcion === item().respuestaCorrecta
+              ? 'border-green-700 bg-green-500 text-white'
+              : 'border-red-700 bg-red-500 text-white'
+            : selectedAnswer() !== null
+              ? opcion === item().respuestaCorrecta
+                ? 'border-green-700 bg-green-500 text-white animate-pulse'
+                : 'opacity-50 grayscale border-slate-400 bg-slate-200 text-slate-600'
+              : 'border-indigo-600 bg-indigo-400 text-white hover:bg-indigo-500'
+        "
+        (click)="selectAnswer(opcion)"
+        [disabled]="selectedAnswer() !== null || submitting()"
+      >
+        <span class="text-2xl font-black uppercase tracking-wider drop-shadow-md">
+          {{ opcion }}
+        </span>
+      </button>
+    }
+  </div>
+</div>
+
+@if (selectedAnswer() !== null) {
+  <div class="mt-8 flex w-full justify-center animate-fade-in-up">
+    <p-button
+      [label]="lastItem() ? 'Finalizar Juego' : 'Siguiente Sombra'"
+      icon="pi pi-arrow-right"
+      iconPos="right"
+      size="large"
+      [loading]="submitting()"
+      (onClick)="continue()"
+      styleClass="w-full sm:w-auto px-10 py-4 text-xl rounded-full shadow-lg"
+    />
+  </div>
+}

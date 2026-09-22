@@ -89,6 +89,28 @@
                 $event
               )
             " />
+    } @else if (isTrueFalseItem(item)) {
+    <app-true-false-game [item]="item" [selectedAnswer]="
+                selectedAnswer(item.id) === 'true' ? true : selectedAnswer(item.id) === 'false' ? false : null
+              " [lastItem]="isLastItem()" [submitting]="submitting()" (answerSelected)="
+                selectAnswer(
+                  item.id,
+                  $event
+                )
+              " (continueRequested)="
+                continue()
+              " />
+    } @else if (isShadowGameItem(item)) {
+    <app-shadow-game [item]="item" [selectedAnswer]="
+                selectedAnswer(item.id)
+              " [lastItem]="isLastItem()" [submitting]="submitting()" (answerSelected)="
+                selectAnswer(
+                  item.id,
+                  $event
+                )
+              " (continueRequested)="
+                continue()
+              " />
     } @else if (
     isSelectionItem(item)
     ) {

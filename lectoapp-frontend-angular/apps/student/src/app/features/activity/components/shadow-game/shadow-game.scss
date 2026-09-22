@@ -1,0 +1,25 @@
+.shadow-filter {
+  filter: brightness(0);
+}
+
+.shadow-reveal {
+  background-color: #f8fafc; /* bg-slate-50 */
+  animation: revealShadow 1s ease-out forwards;
+}
+
+@keyframes revealShadow {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  }
+  50% {
+    transform: scale(1.1);
+    background-color: #fff;
+    box-shadow: 0 0 30px 10px rgba(250, 204, 21, 0.5); /* Yellow glow */
+  }
+  100% {
+    transform: scale(1);
+    background-color: #fff;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  }
+}

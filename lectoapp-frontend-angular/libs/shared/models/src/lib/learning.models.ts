@@ -4,7 +4,8 @@ export type ActivityType =
     | 'EMPAREJAR'
     | 'ORDENAR'
     | 'VERDADERO_FALSO'
-    | 'ORDENAR_SECUENCIA';
+    | 'ORDENAR_SECUENCIA'
+    | 'ADIVINA_LA_SOMBRA';
 
 export type ActivityDifficulty = 'FACIL' | 'MEDIA' | 'DIFICIL';
 
@@ -45,7 +46,21 @@ export interface MatchingItem {
     tipo: 'LETRA_LETRA' | 'LETRA_IMAGEN';
 }
 
-export type ActivityItem = SelectionItem | DragItem | MatchingItem;
+export interface TrueFalseItem {
+    id: number;
+    afirmacion: string;
+    recurso?: string;
+    esVerdadero: boolean;
+}
+
+export interface ShadowGameItem {
+    id: number;
+    opciones: string[];
+    respuestaCorrecta: string;
+    recurso: string;
+}
+
+export type ActivityItem = SelectionItem | DragItem | MatchingItem | TrueFalseItem | ShadowGameItem;
 
 export interface ActivityConfiguration {
     items: ActivityItem[];

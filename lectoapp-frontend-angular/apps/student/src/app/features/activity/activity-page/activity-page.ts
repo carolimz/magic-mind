@@ -51,6 +51,12 @@ import {
 import {
     StorySequenceGame,
 } from '../components/story-sequence-game/story-sequence-game';
+import {
+    TrueFalseGame,
+} from '../components/true-false-game/true-false-game';
+import {
+    ShadowGame,
+} from '../components/shadow-game/shadow-game';
 
 const SPATIAL_DIRECTION_STAGE = 1;
 const WORD_COMPLETION_STAGE = 5;
@@ -73,6 +79,8 @@ const READING_STAGES = [8, 9];
         SyllableGame,
         WordCompletionGame,
         StorySequenceGame,
+        TrueFalseGame,
+        ShadowGame,
     ],
     templateUrl: './activity-page.html',
     styleUrl: './activity-page.scss',
@@ -247,6 +255,18 @@ export class ActivityPage implements OnInit {
         item: ActivityItem,
     ): item is MatchingItem {
         return 'par1' in item && 'par2' in item;
+    }
+
+    isTrueFalseItem(
+        item: ActivityItem,
+    ): item is import('@lectoapp-frontend-angular/models').TrueFalseItem {
+        return 'afirmacion' in item && 'esVerdadero' in item;
+    }
+
+    isShadowGameItem(
+        item: ActivityItem,
+    ): item is import('@lectoapp-frontend-angular/models').ShadowGameItem {
+        return this.activity()?.tipoActividad === 'ADIVINA_LA_SOMBRA';
     }
 
     // ── Detectores de tipo de actividad ──────────────────────────────────

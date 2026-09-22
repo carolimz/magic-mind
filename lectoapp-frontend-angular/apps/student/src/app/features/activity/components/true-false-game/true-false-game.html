@@ -1,0 +1,76 @@
+<div class="flex flex-col items-center justify-center p-4">
+  @if (item().recurso) {
+    @if (item().recurso!.length <= 4) {
+      <div class="mb-6 flex h-48 w-48 items-center justify-center rounded-3xl bg-slate-100 drop-shadow-xl text-8xl" aria-hidden="true">
+        {{ item().recurso }}
+      </div>
+    } @else {
+      <img
+        [src]="item().recurso"
+        alt="Imagen del juego"
+        class="mb-6 h-48 w-48 rounded-3xl object-contain drop-shadow-xl"
+        aria-hidden="true"
+      />
+    }
+  }
+
+  <p class="mb-8 text-center text-3xl font-black text-slate-700 sm:text-4xl">
+    {{ item().afirmacion }}
+  </p>
+
+  <div class="grid w-full max-w-md grid-cols-2 gap-6">
+    <button
+      type="button"
+      class="flex flex-col items-center justify-center gap-2 rounded-3xl border-b-8 p-6 transition-all active:translate-y-2 active:border-b-0"
+      [class]="
+        selectedAnswer() === true
+          ? item().esVerdadero
+            ? 'border-green-700 bg-green-500 text-white'
+            : 'border-red-700 bg-red-500 text-white'
+          : selectedAnswer() === false
+            ? 'opacity-50 grayscale'
+            : 'border-emerald-600 bg-emerald-400 text-white hover:bg-emerald-500'
+      "
+      (click)="selectAnswer(true)"
+      [disabled]="selectedAnswer() !== null || submitting()"
+      aria-label="Verdadero"
+    >
+      <i class="pi pi-check-circle text-5xl drop-shadow-md"></i>
+      <span class="text-xl font-bold uppercase drop-shadow-md">Verdadero</span>
+    </button>
+
+    <button
+      type="button"
+      class="flex flex-col items-center justify-center gap-2 rounded-3xl border-b-8 p-6 transition-all active:translate-y-2 active:border-b-0"
+      [class]="
+        selectedAnswer() === false
+          ? !item().esVerdadero
+            ? 'border-green-700 bg-green-500 text-white'
+            : 'border-red-700 bg-red-500 text-white'
+          : selectedAnswer() === true
+            ? 'opacity-50 grayscale'
+            : 'border-rose-600 bg-rose-400 text-white hover:bg-rose-500'
+      "
+      (click)="selectAnswer(false)"
+      [disabled]="selectedAnswer() !== null || submitting()"
+      aria-label="Falso"
+    >
+      <i class="pi pi-times-circle text-5xl drop-shadow-md"></i>
+      <span class="text-xl font-bold uppercase drop-shadow-md">Falso</span>
+    </button>
+  </div>
+</div>
+
+@if (selectedAnswer() !== null) {
+  <div class="mt-10 flex w-full justify-center animate-fade-in-up">
+    <p-button
+      [label]="lastItem() ? 'Finalizar Juego' : 'Siguiente Pregunta'"
+      icon="pi pi-arrow-right"
+      iconPos="right"
+      size="large"
+      [loading]="submitting()"
+      (onClick)="continue()"
+      styleClass="w-full sm:w-auto px-10 py-4 text-xl rounded-full shadow-lg"
+    />
+  </div>
+}
