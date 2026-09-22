@@ -7,15 +7,6 @@
   <base href="/" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  <script>
-    // Polyfill para globalThis en tablets Android viejas (Chrome < 71)
-    if (typeof globalThis === 'undefined') {
-      Object.defineProperty(Object.prototype, 'globalThis', {
-        get: function () { return this; },
-        configurable: true
-      });
-    }
-  </script>
   
   <!-- Pre-carga de mapas de Microfrontends para eliminar el efecto cascada -->
   <link rel="preload" href="/federation.manifest.json" as="fetch" crossorigin="anonymous" />
