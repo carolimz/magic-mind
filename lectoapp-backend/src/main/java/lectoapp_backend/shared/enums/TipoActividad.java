@@ -17,6 +17,10 @@ public enum TipoActividad {
 
     ORDENAR_SECUENCIA,
 
-    ADIVINA_LA_SOMBRA
+    ADIVINA_LA_SOMBRA,
+
+    SIMON_DICE,
+
+    ALPHABET_GRID
 
 }
