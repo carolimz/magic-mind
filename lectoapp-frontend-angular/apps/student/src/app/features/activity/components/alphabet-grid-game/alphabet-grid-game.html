@@ -1,0 +1,18 @@
+<div class="alphabet-grid-container">
+  <div class="instruction-box">
+    <button class="audio-btn" (click)="item().pregunta && playAudio(item().pregunta)">
+      <i class="pi pi-volume-up"></i>
+    </button>
+    <h2>{{ item().pregunta }}</h2>
+  </div>
+
+  <div class="letters-grid">
+    <button
+      *ngFor="let letter of alphabet"
+      class="letter-btn"
+      (click)="selectLetter(letter)"
+    >
+      {{ letter }}
+    </button>
+  </div>
+</div>

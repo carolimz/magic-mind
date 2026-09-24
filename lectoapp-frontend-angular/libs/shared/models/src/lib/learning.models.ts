@@ -5,7 +5,9 @@ export type ActivityType =
     | 'ORDENAR'
     | 'VERDADERO_FALSO'
     | 'ORDENAR_SECUENCIA'
-    | 'ADIVINA_LA_SOMBRA';
+    | 'ADIVINA_LA_SOMBRA'
+    | 'SIMON_DICE'
+    | 'ALPHABET_GRID';
 
 export type ActivityDifficulty = 'FACIL' | 'MEDIA' | 'DIFICIL';
 
@@ -60,7 +62,13 @@ export interface ShadowGameItem {
     recurso: string;
 }
 
-export type ActivityItem = SelectionItem | DragItem | MatchingItem | TrueFalseItem | ShadowGameItem;
+export interface AlphabetGridItem {
+    id: number;
+    pregunta: string;
+    respuestaCorrecta: string;
+}
+
+export type ActivityItem = SelectionItem | DragItem | MatchingItem | TrueFalseItem | ShadowGameItem | AlphabetGridItem;
 
 export interface ActivityConfiguration {
     items: ActivityItem[];

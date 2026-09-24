@@ -1,0 +1,13 @@
+@reference "tailwindcss/theme";
+
+.answer-option {
+  @apply text-slate-700 bg-white border-slate-200 hover:border-orange-400 hover:bg-orange-50 shadow-sm active:scale-[0.98];
+}
+
+.answer-option--selected {
+  @apply border-orange-500 bg-orange-100 text-orange-800 shadow-md ring-4 ring-orange-500/20;
+}
+
+.answer-option--idle {
+  @apply opacity-90;
+}

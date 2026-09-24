@@ -57,6 +57,8 @@ import {
 import {
     ShadowGame,
 } from '../components/shadow-game/shadow-game';
+import { SimonSaysGameComponent } from '../components/simon-says-game/simon-says-game';
+import { AlphabetGridGameComponent } from '../components/alphabet-grid-game/alphabet-grid-game';
 
 const SPATIAL_DIRECTION_STAGE = 1;
 const WORD_COMPLETION_STAGE = 5;
@@ -81,6 +83,8 @@ const READING_STAGES = [8, 9];
         StorySequenceGame,
         TrueFalseGame,
         ShadowGame,
+        SimonSaysGameComponent,
+        AlphabetGridGameComponent,
     ],
     templateUrl: './activity-page.html',
     styleUrl: './activity-page.scss',
@@ -267,6 +271,18 @@ export class ActivityPage implements OnInit {
         item: ActivityItem,
     ): item is import('@lectoapp-frontend-angular/models').ShadowGameItem {
         return this.activity()?.tipoActividad === 'ADIVINA_LA_SOMBRA';
+    }
+
+    isSimonSaysItem(
+        item: ActivityItem,
+    ): item is SelectionItem {
+        return this.activity()?.tipoActividad === 'SIMON_DICE';
+    }
+
+    isAlphabetGridItem(
+        item: ActivityItem,
+    ): item is import('@lectoapp-frontend-angular/models').AlphabetGridItem {
+        return this.activity()?.tipoActividad === 'ALPHABET_GRID';
     }
 
     // ── Detectores de tipo de actividad ──────────────────────────────────

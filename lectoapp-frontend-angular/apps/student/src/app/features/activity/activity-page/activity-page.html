@@ -111,6 +111,15 @@
               " (continueRequested)="
                 continue()
               " />
+    } @else if (isSimonSaysItem(item)) {
+    <app-simon-says-game [item]="item" [lastItem]="isLastItem()" [submitting]="submitting()" (complete)="
+                handleAutomaticAnswer(
+                  item.id,
+                  $event
+                )
+              " />
+    } @else if (isAlphabetGridItem(item)) {
+    <app-alphabet-grid-game [item]="item" (onAnswer)="handleAutomaticAnswer(item.id, $event)" />
     } @else if (
     isSelectionItem(item)
     ) {
