@@ -135,12 +135,14 @@ public class GeminiReporteService implements GeneradorReporteIAService {
                 Analiza las competencias demostradas en:
                 - **Conciencia Fonológica y Discriminación:** Percepción y manipulación de sonidos y fonemas.
                 - **Decodificación y Ensamblaje Silábico:** Precisión en sílabas simples, complejas y palabras.
-                - **Comprensión y Secuencia Narrativa:** Habilidad para retener y organizar ideas del texto.
+                - **Memoria de Trabajo y Orientación Espacial:** Desempeño en Simón Dice, Adivina la Sombra y el Diagnóstico del Abecedario.
+                - **Comprensión y Pensamiento Crítico:** Habilidad para retener y organizar ideas del texto, y capacidad de inferencia en lecturas largas.
 
                 ### 🎯 Análisis de Errores y Focos de Atención Prioritaria
                 Desglosa pedagógicamente los errores más frecuentes detectados. Explica la posible causa
                 cognitiva (ej. memoria de trabajo fonológica, atención dividida, confusión visoespacial de grafemas
-                similares) y por qué ocurren en este punto de su desarrollo.
+                similares) y por qué ocurren en este punto de su desarrollo. Considera también el desempeño en 
+                verdadero/falso y análisis inferencial.
 
                 ### 🏫 Plan de Acción e Intervención en el Aula
                 Propone entre 3 y 4 estrategias pedagógicas específicas, lúdicas y multisensoriales que el docente
