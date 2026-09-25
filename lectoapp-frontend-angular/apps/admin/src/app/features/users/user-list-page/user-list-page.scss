@@ -26,6 +26,12 @@
   box-shadow:
     0 1.5rem 3rem
     rgb(109 40 217 / 20%);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2rem 4rem rgb(109 40 217 / 25%);
+  }
 
   h1 {
     margin: 0.4rem 0 0.7rem;
@@ -71,6 +77,13 @@
   box-shadow:
     0 0.8rem 2rem
     rgb(15 23 42 / 6%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 1.5rem 3rem rgb(15 23 42 / 12%);
+    border-color: #cbd5e1;
+  }
 
   strong {
     display: block;
@@ -136,6 +149,11 @@
   box-shadow:
     0 1.2rem 3rem
     rgb(15 23 42 / 7%);
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 1.5rem 4rem rgb(15 23 42 / 10%);
+  }
 }
 
 .users-panel__header {

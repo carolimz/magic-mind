@@ -12,16 +12,16 @@
     0 0.8rem 2rem
     rgb(15 23 42 / 7%);
   transition:
-    border-color 150ms ease,
-    box-shadow 150ms ease,
-    transform 150ms ease;
+    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
     border-color: #c4b5fd;
     box-shadow:
-      0 1rem 2.2rem
-      rgb(124 58 237 / 12%);
-    transform: translateY(-0.2rem);
+      0 1.5rem 3rem
+      rgb(124 58 237 / 15%);
+    transform: translateY(-6px) scale(1.01);
   }
 }
 
@@ -195,11 +195,15 @@
   font-size: 0.8rem;
   font-weight: 800;
   cursor: pointer;
-  transition: all 150ms ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+  
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
   }
 }
 

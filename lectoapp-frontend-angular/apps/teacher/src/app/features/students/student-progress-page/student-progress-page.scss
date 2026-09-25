@@ -212,8 +212,8 @@
 
   &:hover {
     background: rgb(255 255 255 / 30%);
-    transform: translateY(-2px);
-    box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 20%);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 0.8rem 2rem rgb(0 0 0 / 25%);
   }
 
   &:active {
@@ -266,10 +266,11 @@
   background: #ffffff;
   box-shadow: 0 0.5rem 1.5rem rgb(15 23 42 / 7%);
   border-left: 4px solid transparent;
-  transition: transform 180ms ease;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
-    transform: translateY(-3px);
+    transform: translateY(-6px);
+    box-shadow: 0 1.2rem 2.5rem rgb(15 23 42 / 12%);
   }
 }
 
@@ -321,7 +322,12 @@
   background: #ffffff;
   padding: 1.5rem;
   border-radius: 1.5rem;
-  box-shadow: 0 0.5rem 1.5rem rgb(15 23 42 / 7%);
+  box-shadow: 0 0.8rem 2rem rgb(15 23 42 / 6%);
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 1.5rem 3rem rgb(15 23 42 / 10%);
+  }
 }
 
 .stage-item {
